@@ -1,0 +1,17 @@
+# Secretos
+.env
+.env.*
+!.env.example
+
+# Videos: viven en almacenamiento externo, no en el repositorio
+videos/
+*.mp4
+*.mov
+*.webm
+*.mkv
+
+# Herramientas
+node_modules/
+.vercel/
+.DS_Store
+Thumbs.db

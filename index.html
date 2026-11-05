@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Hoy te Caigo</title>
+  <meta name="description" content="Fiestas temáticas, micrófono abierto y encuentros universitarios en Quito, Ecuador.">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="assets/logo.jpg" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,800;1,900&family=Poppins:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="#inicio" aria-label="Hoy te Caigo, inicio">
+    <svg class="brand__mark" viewBox="0 0 40 40" aria-hidden="true"><polygon id="logoburst" fill="#ffd21f" stroke="#1b1410" stroke-width="2.5" stroke-linejoin="round"/><circle cx="20" cy="20" r="5" fill="#ff6a13" stroke="#1b1410" stroke-width="2.5"/></svg>
+    <span class="brand__text">¡Hoy te<span>Caigo!</span></span>
+  </a>
+  <nav class="nav" aria-label="Principal">
+    <a href="#cartelera">Cartelera</a>
+    <a href="#plan">El plan para hoy</a>
+    <a href="#vibra">La vibra</a>
+    <a href="#contacto">Marcas</a>
+  </nav>
+  <a class="btn btn--sm" href="#cartelera">Eventos</a>
+</header>
+
+<main class="wrap" id="inicio">
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero__grid">
+      <div>
+        <span class="eyebrow">Fiestas y encuentros universitarios · Quito</span>
+        <h1>¿A dónde le <span class="pop">caemos</span> <span class="hl">hoy?</span></h1>
+        <p class="hero__lead">Organizamos fiestas temáticas, noches de micrófono abierto y encuentros para que tu semana en Quito tenga plan. Mira la cartelera, elige tu noche y cae con tu gente.</p>
+        <div class="hero__cta">
+          <a class="btn btn--star" href="#cartelera">Ver próximos eventos</a>
+          <a class="btn btn--ghost" href="#plan">¿Qué es esto?</a>
+        </div>
+        <ul class="hero__meta">
+          <li><i></i>La Mariscal</li><li><i></i>Cumbayá</li><li><i></i>La Floresta</li><li><i></i>González Suárez</li>
+        </ul>
+      </div>
+
+      <div class="hero__art">
+        <div class="logo-card">
+          <img src="assets/logo.jpg" width="1000" height="1000" alt="Logo de Hoy te Caigo: explosión de cómic con un micrófono y una taza de café" fetchpriority="high">
+        </div>
+        <!-- Íconos flotantes alrededor del logo (decorativos) -->
+        <svg class="fl fl--star-y float" viewBox="0 0 48 48" aria-hidden="true"><polygon points="24,3 30,17 45,17 33,27 38,43 24,33 10,43 15,27 3,17 18,17" fill="#ffd21f" stroke="#1b1410" stroke-width="3" stroke-linejoin="round"/></svg>
+        <svg class="fl fl--star-o float d2" viewBox="0 0 48 48" aria-hidden="true"><polygon points="24,3 30,17 45,17 33,27 38,43 24,33 10,43 15,27 3,17 18,17" fill="#ff6a13" stroke="#1b1410" stroke-width="3" stroke-linejoin="round"/></svg>
+        <svg class="fl fl--mic float d3" viewBox="0 0 48 64" aria-hidden="true"><rect x="14" y="3" width="20" height="32" rx="10" fill="#fff" stroke="#1b1410" stroke-width="3"/><path d="M5 28v3a19 19 0 0 0 38 0v-3M24 50v10M15 60h18" fill="none" stroke="#1b1410" stroke-width="3" stroke-linecap="round"/><path d="M14 14h20M14 22h20" stroke="#1b1410" stroke-width="2" opacity=".5"/></svg>
+        <svg class="fl fl--cup float" viewBox="0 0 72 60" aria-hidden="true"><path d="M5 18h46v14a23 21 0 0 1-46 0z" fill="#ff6a13" stroke="#1b1410" stroke-width="3" stroke-linejoin="round"/><ellipse cx="28" cy="18" rx="23" ry="6" fill="#c2185b" stroke="#1b1410" stroke-width="3"/><path d="M51 24c16-3 17 18 0 19" fill="none" stroke="#1b1410" stroke-width="3" stroke-linecap="round"/><path d="M16 9c-4-6 4-7 0-13M28 8c-4-6 4-7 0-13M40 9c-4-6 4-7 0-13" fill="none" stroke="#1b1410" stroke-width="2.5" stroke-linecap="round" opacity=".55"/></svg>
+        <svg class="fl fl--spark spin" viewBox="0 0 40 40" aria-hidden="true"><polygon points="20,2 24,16 38,20 24,24 20,38 16,24 2,20 16,16" fill="#ffd21f" stroke="#1b1410" stroke-width="3" stroke-linejoin="round"/></svg>
+        <span class="fl fl--dots" aria-hidden="true"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ticker" aria-hidden="true"><div class="ticker__row" id="ticker"></div></div>
+
+  <!-- CARTELERA -->
+  <section id="cartelera">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">Cartelera</span>
+        <h2>Próximos eventos</h2>
+        <p>Entradas en preventa y listas abiertas. Elige tu zona, tu sonido y avísale a tu grupo.</p>
+        <p class="note">Eventos de ejemplo. Edítalos en <code>js/data.js</code>.</p>
+      </div>
+      <div class="filters" role="group" aria-label="Filtrar eventos" id="filters"></div>
+    </div>
+    <div class="grid" id="events"></div>
+  </section>
+
+  <!-- EL PLAN PARA HOY -->
+  <section id="plan">
+    <div class="plan">
+      <div>
+        <span class="eyebrow">El plan para hoy</span>
+        <h2 class="h2-big">Convocamos. Tú caes.</h2>
+        <p class="plan__intro">Hoy te Caigo junta a universitarios de todo Quito en fiestas temáticas, noches de micrófono abierto y encuentros de café. Sin complicarte: te avisamos dónde, a qué hora y quién va.</p>
+        <ol class="steps">
+          <li><span class="n">1</span><div><b>Convocamos</b><span>Publicamos el plan del día en redes con lugar, hora y line-up.</span></div></li>
+          <li><span class="n">2</span><div><b>Te anotas</b><span>Compra tu entrada o entra a la lista desde esta página.</span></div></li>
+          <li><span class="n">3</span><div><b>Caes</b><span>Llegas, te sumas al grupo y la noche arranca sola.</span></div></li>
+        </ol>
+      </div>
+      <div class="plan__panel">
+        <div class="plan__q">¿Qué se te antoja hoy?</div>
+        <div class="moods" id="moods" role="group" aria-label="Elige un plan"></div>
+        <div class="plan__out" id="planout" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="feed-head sec-head" id="vibra">
+      <div>
+        <span class="eyebrow">La vibra</span>
+        <h2>Así se vivió</h2>
+        <p class="note" id="feednote"></p>
+      </div>
+      <a class="btn btn--sm btn--yellow" href="#" data-social="facebook" data-label="Síguenos en Facebook">Síguenos en Facebook</a>
+    </div>
+    <div class="feed" id="feed"></div>
+
+    <div class="band" id="contacto">
+      <span class="eyebrow">Marcas y auspiciantes</span>
+      <h2>Pon tu marca donde está la fiesta</h2>
+      <p>Activaciones, degustaciones y auspicios en eventos con público universitario de Quito. Cuéntanos qué quieres lograr y armamos la propuesta.</p>
+      <a class="btn btn--star" href="#" data-social="facebook" data-label="Quiero auspiciar">Quiero auspiciar</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot">
+    <div class="foot__about">
+      <a class="brand" href="#inicio">
+        <svg class="brand__mark" viewBox="0 0 40 40" aria-hidden="true"><polygon id="logoburst2" fill="#ffd21f" stroke="#1b1410" stroke-width="2.5" stroke-linejoin="round"/><circle cx="20" cy="20" r="5" fill="#ff6a13" stroke="#1b1410" stroke-width="2.5"/></svg>
+        <span class="brand__text">¡Hoy te<span>Caigo!</span></span>
+      </a>
+      <p>Eventos, vida nocturna y fiestas temáticas universitarias en Quito, Ecuador.</p>
+    </div>
+    <div><h4>Síguenos</h4><ul id="social"></ul></div>
+    <div><h4>Entradas</h4><ul>
+      <li><a href="#" data-soon="Términos de compra">Términos de compra</a></li>
+      <li><a href="#" data-soon="Reembolsos y cambios">Reembolsos y cambios</a></li>
+      <li><a href="#" data-soon="Reglas de ingreso">Reglas de ingreso</a></li>
+    </ul></div>
+    <div><h4>Contacto</h4><ul>
+      <li><a href="#contacto">Marcas y auspiciantes</a></li>
+      <li><a href="#" data-open-chat>Preguntar al asistente</a></li>
+      <li><a href="#cartelera">Cartelera</a></li>
+    </ul></div>
+  </div>
+  <div class="legal"><span>© 2026 Hoy te Caigo · Quito, Ecuador</span><span>Prohibida la venta de alcohol a menores de 18 años. Consume con responsabilidad.</span></div>
+</footer>
+
+<!-- Visor de video (el video solo se descarga cuando alguien lo abre) -->
+<dialog class="vid" id="vid" aria-label="Video">
+  <button type="button" class="vid__x" id="vidx" aria-label="Cerrar video">×</button>
+  <video id="vidp" controls playsinline preload="none"></video>
+</dialog>
+
+<!-- Chatbot -->
+<button type="button" class="chat-fab" id="chatfab" aria-expanded="false" aria-controls="chatpanel">
+  <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" fill="#fff" stroke="#1b1410" stroke-width="2.4" stroke-linejoin="round"/><circle cx="9" cy="10.5" r="1.3" fill="#1b1410"/><circle cx="12" cy="10.5" r="1.3" fill="#1b1410"/><circle cx="15" cy="10.5" r="1.3" fill="#1b1410"/></svg>
+  <span>¿Qué hay hoy?</span>
+</button>
+<section class="chat" id="chatpanel" hidden aria-label="Asistente de Hoy te Caigo">
+  <header class="chat__head">
+    <div><b>Asistente Caigo</b><small id="chatmode"></small></div>
+    <button type="button" class="chat__x" id="chatx" aria-label="Cerrar chat">×</button>
+  </header>
+  <div class="chat__log" id="chatlog" role="log" aria-live="polite"></div>
+  <div class="chat__quick" id="chatquick"></div>
+  <form class="chat__form" id="chatform" autocomplete="off">
+    <label class="sr" for="chatin">Escribe tu pregunta</label>
+    <input id="chatin" type="text" maxlength="400" placeholder="Pregunta por eventos, entradas…" required>
+    <button class="btn btn--sm" type="submit">Enviar</button>
+  </form>
+</section>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/chatbot.js"></script>
+</body>
+</html>
