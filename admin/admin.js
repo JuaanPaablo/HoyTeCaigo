@@ -11,7 +11,7 @@
   var MAX_VIDEO_MB = 50;      // tope del plan gratuito de Supabase Storage por archivo
   var DEFAULT_ZONES = ["La Mariscal", "Cumbayá", "La Floresta", "González Suárez"];
 
-  var st = { tab: "events", cats: [], events: [], videos: [], q: "", cat: "", loading: true };
+  var st = { tab: "events", cats: [], events: [], videos: [], leads: [], q: "", cat: "", loading: true };
 
   /* ---------- utilidades de interfaz ---------- */
   var toastEl = $("#toast"), tt;
@@ -107,20 +107,21 @@
 
   /* ---------- carga de datos ---------- */
   function refresh() {
-    return Promise.all([S.list("categories"), S.list("videos"), S.list("events")]).then(function (r) {
-      st.cats = r[0]; st.videos = r[1]; st.events = r[2]; st.loading = false; render();
+    /* Si la tabla de contactos aún no existe, solo esa pestaña avisa; el resto del panel sigue funcionando */
+    return Promise.all([S.list("categories"), S.list("videos"), S.list("events"), S.list("leads").catch(function () { return null; })]).then(function (r) {
+      st.cats = r[0]; st.videos = r[1]; st.events = r[2]; st.leads = r[3]; st.loading = false; render();
     }).catch(function (e) { st.loading = false; $("#view").innerHTML = '<div class="empty"><b>No se pudieron cargar los datos</b>' + esc(errMsg(e)) + '</div>'; });
   }
 
   /* ---------- render ---------- */
-  var TABS = [["events", "Eventos"], ["videos", "Videos"], ["cats", "Categorías"]];
+  var TABS = [["events", "Eventos"], ["videos", "Videos"], ["cats", "Categorías"], ["leads", "Contactos"]];
   function render() {
     $("#tabs").innerHTML = TABS.map(function (t) {
-      return '<button class="tab" role="tab" type="button" data-tab="' + t[0] + '" aria-selected="' + (st.tab === t[0]) + '">' + t[1] + '</button>';
+      return '<button class="tab" role="tab" type="button" data-tab="' + t[0] + '" aria-selected="' + (st.tab === t[0]) + '">' + t[1] + (t[0] === "leads" && newLeads() ? ' <span class="badge badge--new">' + newLeads() + '</span>' : '') + '</button>';
     }).join("");
     var v = $("#view");
     if (st.loading) { v.innerHTML = '<div class="list"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>'; return; }
-    if (st.tab === "events") renderEvents(v); else if (st.tab === "videos") renderVideos(v); else renderCats(v);
+    if (st.tab === "events") renderEvents(v); else if (st.tab === "videos") renderVideos(v); else if (st.tab === "leads") renderLeads(v); else renderCats(v);
   }
 
   function thumb(src) {
@@ -312,6 +313,57 @@
     });
   }
 
+  /* ----- Contactos (formulario «Avísame») ----- */
+  var STATUS = [["nuevo", "Nuevo"], ["contactado", "Contactado"], ["descartado", "Descartado"]];
+  function newLeads() { return (st.leads || []).filter(function (l) { return l.status === "nuevo"; }).length; }
+  function contactLink(c) {
+    if (/@/.test(c)) return { href: "mailto:" + c, label: "Correo" };
+    var d = String(c).replace(/\D/g, "");
+    if (/^0\d{9}$/.test(d)) d = "593" + d.slice(1);       // celular de Ecuador: 099… → 593 99…
+    return d.length >= 10 ? { href: "https://wa.me/" + d, label: "WhatsApp" } : null;
+  }
+  function fmtStamp(iso) {
+    var d = new Date(iso); if (isNaN(d)) return "";
+    var p = function (n) { return n < 10 ? "0" + n : n; };
+    return d.getDate() + " " + MES[d.getMonth()] + " " + d.getFullYear() + ", " + p(d.getHours()) + ":" + p(d.getMinutes());
+  }
+  function renderLeads(v) {
+    if (st.leads === null) {
+      v.innerHTML = '<div class="head"><h2>Contactos</h2></div><div class="empty"><b>Falta crear la tabla de contactos</b>Ejecuta <code>supabase/leads.sql</code> en el SQL Editor de Supabase y recarga esta página.</div>';
+      return;
+    }
+    var html = '<div class="head"><h2>Contactos</h2>' + (st.leads.length ? '<button class="btn btn--ghost" type="button" data-act="export-leads">Exportar CSV</button>' : '') + '</div>' +
+      '<p class="muted" style="margin-bottom:14px">Personas que dejaron su WhatsApp o correo en la página para recibir avisos. Marca a quién ya escribiste.</p>';
+    if (!st.leads.length) {
+      html += '<div class="empty"><b>Aún no hay contactos</b>Aparecerán aquí cuando alguien llene el formulario «Entérate de lo que viene».</div>';
+    } else {
+      html += '<div class="list">' + st.leads.map(function (l) {
+        var link = contactLink(l.contact);
+        return '<article class="item item--lead"><div class="item__main"><div class="item__title">' + esc(l.name || "Sin nombre") + '</div><div class="item__meta"><span>' + esc(l.contact) + '</span><span>' + fmtStamp(l.created_at) + '</span>' +
+          (l.status === "nuevo" ? '<span class="badge badge--new">Nuevo</span>' : '') + '</div></div>' +
+          '<div class="item__act">' + (link ? '<a class="btn btn--text" href="' + esc(link.href) + '" target="_blank" rel="noopener noreferrer">' + link.label + '</a>' : '') +
+          '<select class="sel" data-lead-status="' + l.id + '" aria-label="Estado del contacto">' +
+          STATUS.map(function (s) { return '<option value="' + s[0] + '"' + (l.status === s[0] ? " selected" : "") + '>' + s[1] + '</option>'; }).join("") + '</select>' +
+          '<button class="btn btn--text" type="button" data-act="del-lead" data-id="' + l.id + '">Eliminar</button></div></article>';
+      }).join("") + '</div>';
+    }
+    v.innerHTML = html;
+  }
+  /* CSV que abre bien en Excel y Google Sheets; neutraliza celdas que parezcan fórmulas */
+  function exportLeads() {
+    var safe = function (x) {
+      var s = String(x == null ? "" : x);
+      if (/^[=@]/.test(s) || (/^[+\-]/.test(s) && !/^[+\-]?\d[\d\s-]*$/.test(s))) s = "'" + s;
+      return '"' + s.replace(/"/g, '""') + '"';
+    };
+    var rows = [["Fecha", "Nombre", "Contacto", "Estado", "Origen"]].concat(st.leads.map(function (l) { return [l.created_at, l.name, l.contact, l.status, l.source]; }));
+    var csv = "﻿" + rows.map(function (r) { return r.map(safe).join(","); }).join("\r\n");
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" })); a.download = "contactos-hoytecaigo.csv";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  }
+
   /* ---------- eventos de clic ---------- */
   function del(table, item, label, extra) {
     confirmBox("Eliminar " + label, "Vas a eliminar «" + (item.title || item.name) + "». " + (extra || "") + "Esta acción no se puede deshacer.").then(function (ok) {
@@ -332,6 +384,8 @@
       var used = st.events.filter(function (x) { return x.video_id === id; }).length;
       del("videos", byId(st.videos, id), "video", used ? "Se quitará de " + used + " evento(s). " : "");
     }
+    else if (act === "export-leads") exportLeads();
+    else if (act === "del-lead") { var l = byId(st.leads, id); del("leads", { id: id, title: l ? l.contact : "" }, "contacto"); }
     else if (act === "new-cat") catForm();
     else if (act === "edit-cat") catForm(byId(st.cats, id));
     else if (act === "del-cat") {
@@ -342,6 +396,11 @@
   });
   document.addEventListener("input", function (e) {
     if (e.target.id === "q") { st.q = e.target.value; var pos = e.target.selectionStart; renderEvents($("#view")); var q = $("#q"); q.focus(); q.setSelectionRange(pos, pos); }
+  });
+  document.addEventListener("change", function (e) {
+    var ls = e.target.getAttribute && e.target.getAttribute("data-lead-status");
+    if (!ls) return;
+    S.save("leads", { id: ls, status: e.target.value }).then(refresh).then(function () { toast("Estado actualizado"); }).catch(function (x) { toast(errMsg(x), true); refresh(); });
   });
   document.addEventListener("change", function (e) { if (e.target.id === "fcat") { st.cat = e.target.value; renderEvents($("#view")); $("#fcat").focus(); } });
 

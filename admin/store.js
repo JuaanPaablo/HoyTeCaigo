@@ -14,7 +14,8 @@ window.HTC_STORE = (function () {
     var ORDER = {
       categories: [["sort_order", true], ["name", true]],
       events: [["event_date", false], ["event_time", false]],
-      videos: [["sort_order", true], ["created_at", true]]
+      videos: [["sort_order", true], ["created_at", true]],
+      leads: [["created_at", false]]
     };
     var must = function (r) { if (r.error) throw r.error; return r.data; };
     return {
@@ -72,6 +73,10 @@ window.HTC_STORE = (function () {
     }
     return {
       categories: cats, videos: vids,
+      leads: [
+        { id: "l1", name: "Camila Torres", contact: "0991234567", source: "landing", consent: true, status: "nuevo", notes: null, created_at: "2026-11-04T15:20:00Z" },
+        { id: "l2", name: null, contact: "mateo@correo.com", source: "landing", consent: true, status: "contactado", notes: null, created_at: "2026-11-02T21:05:00Z" }
+      ],
       events: [
         ev(1, "Café y Micro Abierto", "c4", "2026-10-28", "18:30:00", "La Floresta", ["Micrófono abierto", "Host: Pame"], "Noche de stand-up, poesía y música en vivo para conocer gente en un ambiente tranquilo."),
         ev(2, "Perreo Pop-Art", "c2", "2026-10-23", "21:30:00", "Cumbayá", ["DJ Zaida", "Lalo Beat", "MC Quito"], "Fiesta urbana con estética pop-art, pista llena y artistas locales."),
@@ -83,7 +88,7 @@ window.HTC_STORE = (function () {
     };
   }
   function read() {
-    try { var d = JSON.parse(localStorage.getItem(KEY)); if (d && d.events) return d; } catch (e) {}
+    try { var d = JSON.parse(localStorage.getItem(KEY)); if (d && d.events) { d.leads = d.leads || []; return d; } } catch (e) {}
     return seed();
   }
   function write(d) { try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) { throw new Error("El navegador no tiene espacio para guardar más datos de la demo."); } }
@@ -92,7 +97,8 @@ window.HTC_STORE = (function () {
   var cmp = {
     categories: function (a, b) { return (a.sort_order - b.sort_order) || a.name.localeCompare(b.name); },
     events: function (a, b) { return String(b.event_date).localeCompare(String(a.event_date)) || String(b.event_time || "").localeCompare(String(a.event_time || "")); },
-    videos: function (a, b) { return (a.sort_order - b.sort_order) || String(a.created_at).localeCompare(String(b.created_at)); }
+    videos: function (a, b) { return (a.sort_order - b.sort_order) || String(a.created_at).localeCompare(String(b.created_at)); },
+    leads: function (a, b) { return String(b.created_at).localeCompare(String(a.created_at)); }
   };
   var wait = function (v) { return new Promise(function (r) { setTimeout(function () { r(v); }, 120); }); };
 

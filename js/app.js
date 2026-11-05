@@ -233,14 +233,20 @@
     }
     if (!ok) { leadMsg("Marca la casilla para que podamos escribirte.", true); $("#lead-ok").focus(); return; }
     if ($("#lead-web").value) { leadMsg("¡Listo! Te avisamos."); form.reset(); return; }   // trampa para bots
+    /* Destino: la tabla "leads" de Supabase si está configurado; si no, el endpoint externo de config (Formspree, etc.) */
+    var sbu = CFG.supabase || {};
     var url = (CFG.leads && CFG.leads.endpoint) || "";
-    if (!url) { leadMsg("El registro aún no está conectado. Vuelve pronto o escríbenos por Facebook.", true); return; }
+    var payload = JSON.stringify({ name: name || null, contact: contact, consent: true, source: "landing" });
+    var send;
+    if (sbu.url && sbu.anonKey) {
+      var h = { "Content-Type": "application/json", apikey: sbu.anonKey, Prefer: "return=minimal" };
+      if (/^eyJ/.test(sbu.anonKey)) h.Authorization = "Bearer " + sbu.anonKey;
+      send = function () { return fetch(sbu.url.replace(/\/$/, "") + "/rest/v1/leads", { method: "POST", headers: h, body: payload }); };
+    } else if (url) {
+      send = function () { return fetch(url, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: payload }); };
+    } else { leadMsg("El registro aún no está conectado. Vuelve pronto o escríbenos por Facebook.", true); return; }
     sending = true; leadMsg("Enviando…");
-    fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Accept": "application/json" },
-      body: JSON.stringify({ name: name, contact: contact, consent: true, source: "landing" })
-    }).then(function (r) {
+    send().then(function (r) {
       if (!r.ok) throw new Error("HTTP " + r.status);
       leadMsg("¡Listo! Te avisamos cuando anunciemos algo nuevo."); form.reset();
     }).catch(function () {

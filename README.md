@@ -73,7 +73,11 @@ Recomendado: MP4 H.264, vertical 9:16, 720p y pocos segundos por clip.
 
 ## Entérate de lo que viene (captura de contactos)
 
-El formulario pide WhatsApp o correo y consentimiento. **No guarda nada hasta que pongas `leads.endpoint` en `js/config.js`**; mientras tanto le dice al usuario que aún no está conectado. Opciones para recibir los datos:
+El formulario pide WhatsApp o correo y consentimiento.
+
+**Con Supabase configurado (recomendado)** guarda cada contacto en la tabla `leads`. Si tu base ya existía antes de esta función, ejecuta **una vez** `supabase/leads.sql` en el SQL Editor (una base nueva ya lo incluye en `schema.sql`). Marketing los ve en la pestaña **Contactos** del panel: abre WhatsApp o correo con un clic, marca el estado (nuevo, contactado, descartado), elimina y exporta a CSV. Los visitantes solo pueden enviar un contacto; nadie sin sesión puede leerlos.
+
+**Sin Supabase** no guarda nada hasta que pongas `leads.endpoint` en `js/config.js`; mientras tanto le dice al usuario que aún no está conectado. Opciones para recibir los datos:
 
 - **Formspree o similar:** crea un formulario y pega su URL. Es lo más rápido.
 - **Google Apps Script:** una hoja de cálculo que recibe el POST.
