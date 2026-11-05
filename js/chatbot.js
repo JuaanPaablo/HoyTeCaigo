@@ -20,7 +20,7 @@
 
   document.getElementById("chatmode").textContent = CFG.endpoint ? "Asistente con IA" : "Modo demo, sin IA";
 
-  var QUICK = ["¿Qué eventos hay?", "¿Cuánto cuestan las entradas?", "¿Cómo me anoto a la lista?", "Quiero auspiciar"];
+  var QUICK = ["¿Qué hacen?", "Eventos que han hecho", "Quiero cotizar un evento", "¿Dónde los encuentro?"];
   QUICK.forEach(function (q) {
     var b = document.createElement("button");
     b.type = "button"; b.className = "chip"; b.textContent = q;
@@ -41,7 +41,7 @@
     panel.hidden = !on;
     fab.setAttribute("aria-expanded", String(on));
     if (on) {
-      if (!greeted) { greeted = true; add("assistant", "¡Hola! Soy el asistente de Hoy te Caigo. Pregúntame por eventos, entradas, listas o zonas."); }
+      if (!greeted) { greeted = true; add("assistant", "¡Hola! Soy el asistente de Hoy te Caigo. Pregúntame qué hacemos, qué eventos hemos producido o cómo cotizar uno."); }
       input.focus();
     } else { fab.focus(); }
   }
@@ -54,7 +54,7 @@
 
   /* ---- Respuestas locales (modo demo) ---- */
   function norm(s) { return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
-  function line(e) { return "• " + e.t + " · " + e.day + " " + e.d + " " + e.m + ", " + e.h + " · " + e.loc + " · " + e.p; }
+  function line(e) { return "• " + e.t + " · " + e.d + " " + e.m + " · " + e.loc; }
   function socials() {
     var out = [];
     [["facebook", "Facebook"], ["instagram", "Instagram"], ["tiktok", "TikTok"], ["whatsapp", "WhatsApp"]].forEach(function (n) {
@@ -64,17 +64,15 @@
   }
   function localReply(q) {
     var t = norm(q);
-    if (/(hola|buenas|hey|saludos)/.test(t)) return "¡Hola! ¿Buscas plan para hoy? Te cuento de eventos, entradas o zonas.";
-    if (/(auspic|marca|patrocin|contacto|alianza)/.test(t)) return "Para marcas y auspicios escríbenos por nuestras redes y armamos la propuesta:\n" + socials();
-    if (/(lista|gratis)/.test(t)) {
-      var free = EVENTS.filter(function (e) { return e.a === "list"; });
-      return free.length ? "Estos eventos son con lista gratuita. Usa el botón «Anotarme en la lista» de cada tarjeta:\n" + free.map(line).join("\n") : "Por ahora no hay eventos con lista gratuita.";
-    }
-    if (/(entrada|boleto|comprar|precio|cuesta|cuanto|pagar)/.test(t)) return "Precios de los próximos eventos:\n" + EVENTS.map(function (e) { return "• " + e.t + ": " + e.p; }).join("\n") + "\nCompra desde el botón de cada tarjeta en la cartelera.";
-    if (/(donde|ubicacion|zona|lugar|direccion|mariscal|cumbaya|floresta|gonzalez)/.test(t)) return "Hacemos eventos en La Mariscal, Cumbayá, La Floresta y González Suárez.\n" + EVENTS.map(function (e) { return "• " + e.t + ": " + e.loc; }).join("\n");
-    if (/(instagram|tiktok|facebook|redes|whatsapp|siguen|seguir)/.test(t)) return "Nuestras redes:\n" + socials();
-    if (/(evento|cartelera|hoy|noche|proximo|fiesta|plan|que hay|dj|lineup)/.test(t)) return "Próximos eventos:\n" + EVENTS.map(line).join("\n");
-    return "Puedo ayudarte con eventos, precios, listas, zonas y redes. ¿Qué te interesa?";
+    if (/(hola|buenas|hey|saludos)/.test(t)) return "¡Hola! Somos Hoy te Caigo. Te cuento qué hacemos, qué eventos hemos producido o cómo cotizar uno.";
+    if (/(entrada|boleto|comprar|precio|cuesta|cuanto|pagar|ticket)/.test(t)) return "Por ahora esta página es nuestro portafolio y no vendemos entradas. Si quieres un evento nuevo o una propuesta, escríbenos:\n" + socials();
+    if (/(cotiz|contrat|auspic|marca|patrocin|contacto|alianza|propuesta|presupuesto|trabaj)/.test(t)) return "Cuéntanos tu idea, el público y la fecha, y armamos la propuesta. Escríbenos por:\n" + socials();
+    if (/(que hacen|servicio|ofrecen|producen|hacen)/.test(t)) return "Producimos fiestas temáticas, noches de micrófono abierto y encuentros universitarios en Quito, y armamos activaciones para marcas. Nos encargamos de la idea, el lugar, los artistas y la convocatoria.";
+    if (/(donde|ubicacion|zona|lugar|direccion|mariscal|cumbaya|floresta|gonzalez)/.test(t)) return "Hacemos eventos en La Mariscal, Cumbayá, La Floresta y González Suárez, en Quito.\n" + EVENTS.map(function (e) { return "• " + e.t + ": " + e.loc; }).join("\n");
+    if (/(instagram|tiktok|facebook|redes|whatsapp|siguen|seguir|encuentro)/.test(t)) return "Nuestras redes:\n" + socials();
+    if (/(video|vibra)/.test(t)) return "Mira la sección «La vibra» de la página: ahí están los videos de nuestros eventos.";
+    if (/(evento|portafolio|han hecho|realizad|fiesta|trabajos|dj|artista)/.test(t)) return "Algunos eventos que hemos producido:\n" + EVENTS.map(line).join("\n") + "\nMira el portafolio completo en la página.";
+    return "Puedo contarte qué hacemos, qué eventos hemos producido, dónde nos encuentras o cómo cotizar un evento. ¿Qué te interesa?";
   }
 
   /* ---- Servidor (con IA) ---- */

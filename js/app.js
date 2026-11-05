@@ -1,4 +1,4 @@
-/* Lógica de la página: cartelera, plan del día, feed de videos, redes y avisos. */
+/* Lógica de la página: portafolio, servicios, feed de videos, redes y avisos. */
 (function () {
   "use strict";
   var CFG = window.HTC_CONFIG || {};
@@ -7,9 +7,11 @@
   var VIDEOS = window.HTC_VIDEOS || [];
   var SOCIAL = CFG.social || {};
   var VBASE = (CFG.videos && CFG.videos.baseUrl) || "";
+  var MAX_AUTO_CLIPS = 10;
   var $ = function (s) { return document.querySelector(s); };
 
   function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;"); }
+
   /* Marcador de posición con el logo, centrado, para eventos y clips sin foto */
   function placeholder(color) {
     return '<div class="ph" style="--c1:' + esc(color) + '"><img src="assets/logo.png" alt="" loading="lazy"></div>';
@@ -21,7 +23,6 @@
     toast.textContent = msg; toast.classList.add("on");
     clearTimeout(tt); tt = setTimeout(function () { toast.classList.remove("on"); }, 2800);
   }
-  window.HTC_say = say;
   document.addEventListener("click", function (e) {
     var a = e.target.closest("[data-soon]");
     if (a) { e.preventDefault(); say(a.getAttribute("data-soon")); }
@@ -42,30 +43,50 @@
   });
 
   /* Cinta */
-  var words = ["Fiestas temáticas", "Micrófono abierto", "Café y buena vibra", "Electrónica", "Urbano", "Quito de noche", "¡Hoy te caigo!"];
+  var words = ["Fiestas temáticas", "Micrófono abierto", "Producción de eventos", "Electrónica", "Urbano", "Quito de noche", "¡Hoy te caigo!"];
   var tk = words.map(function (w) { return "<span>" + w + "</span>"; }).join("");
   $("#ticker").innerHTML = tk + tk;
 
-  /* Cartelera */
-  function art(ev) {
-    if (ev.img) return '<img loading="lazy" src="' + esc(ev.img) + '" alt="">';
-    return placeholder(ev.c1);
+  /* ---------- Visor de video (se descarga solo al abrirlo, preload="none") ---------- */
+  function vurl(f) { return /^https?:\/\//.test(f) ? f : VBASE + f; }
+  var dlg = $("#vid"), player = $("#vidp");
+  function closeVid() {
+    player.pause(); player.removeAttribute("src"); player.removeAttribute("poster"); player.load();
+    if (dlg.open) dlg.close();
   }
+  function openVid(src, poster) {
+    if (poster) player.poster = vurl(poster); else player.removeAttribute("poster");
+    player.src = vurl(src);
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
+    var p = player.play(); if (p && p.catch) p.catch(function () {});
+  }
+  $("#vidx").addEventListener("click", closeVid);
+  dlg.addEventListener("click", function (e) { if (e.target === dlg) closeVid(); });
+  dlg.addEventListener("close", function () { player.pause(); });
+
+  /* ---------- Portafolio ---------- */
   var pin = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z" fill="#ffd21f" stroke="#1b1410" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.6" fill="#1b1410"/></svg>';
+  var playIco = '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#1b1410"/></svg>';
 
   $("#events").innerHTML = EVENTS.map(function (e, i) {
-    var label = e.a === "tix" ? "Comprar entradas" : "Anotarme en la lista";
-    var action = e.url
-      ? '<a class="btn btn--sm" href="' + esc(e.url) + '" target="_blank" rel="noopener noreferrer">' + label + '</a>'
-      : '<a class="btn btn--sm" href="#" data-soon="' + esc(label) + ' de «' + esc(e.t) + '»: enlace pendiente.">' + label + '</a>';
+    var art = e.img ? '<img loading="lazy" src="' + esc(e.img) + '" alt="">' : placeholder(e.c1);
+    var foot = (e.video && VBASE)
+      ? '<div class="card__foot"><button type="button" class="btn btn--sm" data-ev="' + i + '">' + playIco + ' Ver video</button></div>'
+      : '';
     return '<article class="card" data-cat="' + esc(e.c) + '">' +
-      '<div class="card__art">' + art(e) + '<div class="card__date"><b>' + esc(e.d) + '</b><small>' + esc(e.m) + '</small></div><span class="card__tag">' + esc(e.c) + '</span></div>' +
+      '<div class="card__art">' + art + '<div class="card__date"><b>' + esc(e.d) + '</b><small>' + esc(e.m) + '</small></div><span class="card__tag">' + esc(e.c) + '</span></div>' +
       '<div class="card__body"><h3>' + esc(e.t) + '</h3>' +
       '<div class="card__where">' + pin + esc(e.loc) + ', Quito</div>' +
       '<div class="card__when">' + esc(e.day) + ' · ' + esc(e.h) + '</div>' +
-      '<div class="lineup-label">Line-up</div><ul class="lineup">' + e.dj.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + '</ul>' +
-      '<div class="card__foot"><div class="price"><small>' + (e.a === "tix" ? "Desde" : "Entrada") + '</small>' + esc(e.p) + '</div>' + action + '</div></div></article>';
+      (e.desc ? '<p class="card__desc">' + esc(e.desc) + '</p>' : '') +
+      '<div class="lineup-label">Artistas</div><ul class="lineup">' + e.dj.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + '</ul>' +
+      foot + '</div></article>';
   }).join("");
+  $("#events").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-ev]"); if (!b) return;
+    var ev = EVENTS[+b.getAttribute("data-ev")];
+    if (ev && ev.video) openVid(ev.video, ev.poster);
+  });
 
   var cats = ["Todos"];
   EVENTS.forEach(function (e) { if (cats.indexOf(e.c) < 0) cats.push(e.c); });
@@ -77,14 +98,14 @@
     document.querySelectorAll(".card").forEach(function (c) { c.hidden = b.dataset.c !== "Todos" && c.dataset.cat !== b.dataset.c; });
   });
 
-  /* El plan para hoy */
+  /* ---------- Qué hacemos ---------- */
   var mo = $("#moods"), out = $("#planout");
   mo.innerHTML = PLANS.map(function (p, i) { return '<button type="button" class="chip" aria-pressed="' + (i === 0) + '" data-i="' + i + '">' + esc(p.k) + '</button>'; }).join("");
   function showPlan(i) {
     var p = PLANS[i]; if (!p) return;
     out.innerHTML = '<h3>' + esc(p.t) + '</h3><p>' + esc(p.p) + '</p><ul class="plan__facts">' +
       p.f.map(function (f) { return '<li><b>' + esc(f[0]) + '</b>' + esc(f[1]) + '</li>'; }).join("") +
-      '</ul><a class="btn btn--sm btn--star" href="#cartelera">' + esc(p.cta) + '</a>';
+      '</ul><a class="btn btn--sm btn--star" href="#contacto">' + esc(p.cta) + '</a>';
   }
   showPlan(0);
   mo.addEventListener("click", function (e) {
@@ -93,40 +114,61 @@
     showPlan(+b.dataset.i);
   });
 
-  /* Feed de videos. Los archivos viven en almacenamiento externo (HTC_CONFIG.videos.baseUrl).
-     Nada se descarga hasta que alguien toca un clip: el visor usa preload="none". */
-  function vurl(f) { return /^https?:\/\//.test(f) ? f : VBASE + f; }
-  $("#feednote").textContent = VBASE ? "" : "Clips de ejemplo. Conecta tus videos en js/config.js (videos.baseUrl).";
-  $("#feed").innerHTML = VIDEOS.map(function (v, i) {
-    var live = !!(VBASE && v.src);
-    var bg = (live && v.poster)
-      ? '<img loading="lazy" src="' + esc(vurl(v.poster)) + '" alt="">'
-      : placeholder(v.c1);
-    return '<button type="button" class="clip" data-i="' + i + '" aria-label="Ver video: ' + esc(v.title) + '">' + bg +
-      '<span class="clip__views">' + esc(v.views) + ' vistas</span>' +
-      '<span class="clip__play"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#1b1410"/></svg></span>' +
-      '<span class="clip__cap"><b>' + esc(v.title) + '</b>' + esc(v.cap) + '</span></button>';
-  }).join("");
-
-  var dlg = $("#vid"), player = $("#vidp");
-  function closeVid() {
-    player.pause(); player.removeAttribute("src"); player.removeAttribute("poster"); player.load();
-    if (dlg.open) dlg.close();
+  /* ---------- Feed de videos (La vibra) ---------- */
+  var feed = $("#feed"), clips = [];
+  function renderFeed(list, note) {
+    clips = list;
+    $("#feednote").textContent = note || "";
+    feed.innerHTML = list.map(function (v, i) {
+      var live = !!(VBASE && v.src);
+      var bg;
+      if (!live) bg = placeholder(v.c1 || "#ff6a13");
+      else if (v.poster) bg = '<img loading="lazy" src="' + esc(vurl(v.poster)) + '" alt="">';
+      else bg = '<video muted playsinline preload="metadata" tabindex="-1" aria-hidden="true" src="' + esc(vurl(v.src)) + '#t=0.1"></video>';
+      return '<button type="button" class="clip" data-i="' + i + '" aria-label="Ver video: ' + esc(v.title) + '">' + bg +
+        '<span class="clip__play"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#1b1410"/></svg></span>' +
+        '<span class="clip__cap"><b>' + esc(v.title) + '</b>' + esc(v.cap || "") + '</span></button>';
+    }).join("");
   }
-  $("#feed").addEventListener("click", function (e) {
+  feed.addEventListener("click", function (e) {
     var b = e.target.closest(".clip"); if (!b) return;
-    var v = VIDEOS[+b.dataset.i];
-    if (!(VBASE && v.src)) { say("Este clip es de ejemplo. Conecta tus videos en js/config.js."); return; }
-    if (v.poster) player.poster = vurl(v.poster);
-    player.src = vurl(v.src);
-    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
-    var p = player.play(); if (p && p.catch) p.catch(function () {});
+    var v = clips[+b.dataset.i];
+    if (!(VBASE && v.src)) { say("Este clip es de ejemplo. Sube tus videos al bucket para verlos aquí."); return; }
+    openVid(v.src, v.poster);
   });
-  $("#vidx").addEventListener("click", closeVid);
-  dlg.addEventListener("click", function (e) { if (e.target === dlg) closeVid(); });
-  dlg.addEventListener("close", function () { player.pause(); });
 
-  /* Próximo evento con cuenta regresiva: el primer evento con fecha futura (campo iso en data.js) */
+  var hasExplicit = VIDEOS.some(function (v) { return v.src; });
+  renderFeed(VIDEOS, VBASE && !hasExplicit ? "Buscando tus videos…" : (VBASE ? "" : "Clips de ejemplo. Conecta tus videos en js/config.js."));
+
+  /* Autodetección: busca clip-1.mp4 … clip-10.mp4 en el bucket. Un <video> con solo metadatos
+     avisa si el archivo existe sin pedir permisos CORS ni descargar el video completo. */
+  if (VBASE && !hasExplicit) {
+    var found = [], pending = MAX_AUTO_CLIPS;
+    var probe = function (n) {
+      var v = document.createElement("video"), done = false, timer;
+      var fin = function (ok) {
+        if (done) return; done = true; clearTimeout(timer);
+        v.removeAttribute("src"); v.load();
+        if (ok) found.push(n);
+        if (--pending === 0) {
+          if (found.length) {
+            found.sort(function (a, b) { return a - b; });
+            renderFeed(found.map(function (k) { return { title: "Evento " + k, cap: "Video del evento", src: "clip-" + k + ".mp4", poster: "", c1: "#ff6a13" }; }), "");
+          } else {
+            renderFeed(VIDEOS, "Clips de ejemplo. Sube clip-1.mp4, clip-2.mp4… al bucket para verlos aquí.");
+          }
+        }
+      };
+      timer = setTimeout(function () { fin(false); }, 9000);
+      v.preload = "metadata"; v.muted = true;
+      v.onloadedmetadata = function () { fin(true); };
+      v.onerror = function () { fin(false); };
+      v.src = VBASE + "clip-" + n + ".mp4";
+    };
+    for (var n = 1; n <= MAX_AUTO_CLIPS; n++) probe(n);
+  }
+
+  /* ---------- Próximo evento con cuenta regresiva (solo si hay un evento futuro con iso) ---------- */
   var upcoming = EVENTS.filter(function (e) { return e.iso && Date.parse(e.iso) > Date.now(); })
     .sort(function (a, b) { return Date.parse(a.iso) - Date.parse(b.iso); })[0];
   if (upcoming) {
@@ -135,19 +177,20 @@
     $("#nextmeta").textContent = upcoming.day + " " + upcoming.d + " " + upcoming.m + " · " + upcoming.h + " · " + upcoming.loc + ", Quito";
     $("#next").hidden = false;
     var pad = function (n) { return n < 10 ? "0" + n : String(n); };
+    var timer2;
     var tick = function () {
       var s = Math.max(0, Math.floor((target - Date.now()) / 1000));
       $("#cd-d").textContent = Math.floor(s / 86400);
       $("#cd-h").textContent = pad(Math.floor(s % 86400 / 3600));
       $("#cd-m").textContent = pad(Math.floor(s % 3600 / 60));
       $("#cd-s").textContent = pad(s % 60);
-      if (s === 0) clearInterval(timer);
+      if (s === 0) clearInterval(timer2);
     };
-    var timer = setInterval(tick, 1000);
+    timer2 = setInterval(tick, 1000);
     tick();
   }
 
-  /* Formulario "Avísame". Sin endpoint en config no guarda nada y lo dice. */
+  /* ---------- Formulario "Avísame". Sin endpoint en config no guarda nada y lo dice. ---------- */
   var form = $("#leadform"), msg = $("#leadmsg"), sending = false;
   function leadMsg(text, bad) { msg.textContent = text; msg.className = "lead__msg" + (bad ? " err" : ""); }
   function validContact(v) {
@@ -176,7 +219,7 @@
       body: JSON.stringify({ name: name, contact: contact, consent: true, source: "landing" })
     }).then(function (r) {
       if (!r.ok) throw new Error("HTTP " + r.status);
-      leadMsg("¡Listo! Te avisamos del próximo plan."); form.reset();
+      leadMsg("¡Listo! Te avisamos cuando anunciemos algo nuevo."); form.reset();
     }).catch(function () {
       leadMsg("No pudimos guardar tus datos. Intenta de nuevo en un momento.", true);
     }).then(function () { sending = false; });

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Hoy te Caigo</title>
-  <meta name="description" content="Fiestas temáticas, micrófono abierto y encuentros universitarios en Quito, Ecuador.">
+  <meta name="description" content="Productora de fiestas temáticas, micrófono abierto y encuentros universitarios en Quito, Ecuador. Mira nuestro portafolio.">
   <meta name="theme-color" content="#ffffff">
   <!-- Vista previa al compartir. Al comprar el dominio, reemplaza hoytecaigo.vercel.app por el dominio nuevo (ver README). -->
   <link rel="canonical" href="https://hoytecaigo.vercel.app/">
@@ -13,7 +13,7 @@
   <meta property="og:locale" content="es_EC">
   <meta property="og:site_name" content="Hoy te Caigo">
   <meta property="og:title" content="¡Hoy te Caigo! Fiestas y eventos universitarios en Quito">
-  <meta property="og:description" content="Cartelera de fiestas temáticas, micrófono abierto y encuentros. Elige tu noche y cae con tu gente.">
+  <meta property="og:description" content="Portafolio de fiestas temáticas, micrófono abierto y encuentros. Cuéntanos qué quieres armar.">
   <meta property="og:image" content="https://hoytecaigo.vercel.app/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -34,12 +34,12 @@
     <span class="brand__text">¡Hoy te<span>Caigo!</span></span>
   </a>
   <nav class="nav" aria-label="Principal">
-    <a href="#cartelera">Cartelera</a>
-    <a href="#plan">El plan para hoy</a>
+    <a href="#portafolio">Portafolio</a>
+    <a href="#servicios">Qué hacemos</a>
     <a href="#vibra">La vibra</a>
-    <a href="#contacto">Marcas</a>
+    <a href="#contacto">Contacto</a>
   </nav>
-  <a class="btn btn--sm" href="#cartelera">Eventos</a>
+  <a class="btn btn--sm" href="#contacto">Contacto</a>
 </header>
 
 <main class="wrap" id="inicio">
@@ -47,12 +47,12 @@
   <div class="hero">
     <div class="hero__grid">
       <div>
-        <span class="eyebrow">Fiestas y encuentros universitarios · Quito</span>
+        <span class="eyebrow">Productora de eventos universitarios · Quito</span>
         <h1>¿A dónde le <span class="pop">caemos</span> <span class="hl">hoy?</span></h1>
-        <p class="hero__lead">Organizamos fiestas temáticas, noches de micrófono abierto y encuentros para que tu semana en Quito tenga plan. Mira la cartelera, elige tu noche y cae con tu gente.</p>
+        <p class="hero__lead">Producimos fiestas temáticas, noches de micrófono abierto y encuentros universitarios en Quito. Mira lo que hemos hecho y cuéntanos qué quieres armar.</p>
         <div class="hero__cta">
-          <a class="btn btn--star" href="#cartelera">Ver próximos eventos</a>
-          <a class="btn btn--ghost" href="#plan">¿Qué es esto?</a>
+          <a class="btn btn--star" href="#portafolio">Ver nuestros eventos</a>
+          <a class="btn btn--ghost" href="#contacto">Trabajemos juntos</a>
         </div>
         <ul class="hero__meta">
           <li><i></i>La Mariscal</li><li><i></i>Cumbayá</li><li><i></i>La Floresta</li><li><i></i>González Suárez</li>
@@ -75,14 +75,14 @@
 
   <div class="ticker" aria-hidden="true"><div class="ticker__row" id="ticker"></div></div>
 
-  <!-- PRÓXIMO EVENTO (se llena solo con el primer evento futuro de js/data.js) -->
+  <!-- PRÓXIMO EVENTO (solo aparece si hay un evento futuro con fecha iso en js/data.js) -->
   <section class="next" id="next" aria-label="Próximo evento" hidden>
     <div class="next__in">
       <div class="next__info">
         <span class="eyebrow">Próximo evento</span>
         <h2 id="nexttitle"></h2>
         <p id="nextmeta"></p>
-        <a class="btn btn--star" href="#cartelera">Ver cartelera</a>
+        <a class="btn btn--star" href="#portafolio">Ver portafolio</a>
       </div>
       <div class="count" role="timer" aria-label="Tiempo que falta para el evento">
         <div><b id="cd-d">0</b><small>Días</small></div>
@@ -93,13 +93,13 @@
     </div>
   </section>
 
-  <!-- CARTELERA -->
-  <section id="cartelera">
+  <!-- PORTAFOLIO -->
+  <section id="portafolio">
     <div class="sec-head">
       <div>
-        <span class="eyebrow">Cartelera</span>
-        <h2>Próximos eventos</h2>
-        <p>Entradas en preventa y listas abiertas. Elige tu zona, tu sonido y avísale a tu grupo.</p>
+        <span class="eyebrow">Portafolio</span>
+        <h2>Eventos que hemos hecho</h2>
+        <p>Una muestra de las noches que hemos producido en Quito: fiestas temáticas, micrófono abierto y encuentros universitarios.</p>
         <p class="note">Eventos de ejemplo. Edítalos en <code>js/data.js</code>.</p>
       </div>
       <div class="filters" role="group" aria-label="Filtrar eventos" id="filters"></div>
@@ -107,22 +107,22 @@
     <div class="grid" id="events"></div>
   </section>
 
-  <!-- EL PLAN PARA HOY -->
-  <section id="plan">
+  <!-- QUÉ HACEMOS -->
+  <section id="servicios">
     <div class="plan">
       <div>
-        <span class="eyebrow">El plan para hoy</span>
-        <h2 class="h2-big">Convocamos. Tú caes.</h2>
-        <p class="plan__intro">Hoy te Caigo junta a universitarios de todo Quito en fiestas temáticas, noches de micrófono abierto y encuentros de café. Sin complicarte: te avisamos dónde, a qué hora y quién va.</p>
+        <span class="eyebrow">Qué hacemos</span>
+        <h2 class="h2-big">Convocamos. Producimos. Tú caes.</h2>
+        <p class="plan__intro">Hoy te Caigo junta a universitarios de todo Quito en fiestas temáticas, noches de micrófono abierto y encuentros de café. Nos encargamos de la idea, el lugar, los artistas y la convocatoria.</p>
         <ol class="steps">
-          <li><span class="n">1</span><div><b>Convocamos</b><span>Publicamos el plan del día en redes con lugar, hora y line-up.</span></div></li>
-          <li><span class="n">2</span><div><b>Te anotas</b><span>Compra tu entrada o entra a la lista desde esta página.</span></div></li>
-          <li><span class="n">3</span><div><b>Caes</b><span>Llegas, te sumas al grupo y la noche arranca sola.</span></div></li>
+          <li><span class="n">1</span><div><b>Convocamos</b><span>Lanzamos la convocatoria en redes y armamos la comunidad del evento.</span></div></li>
+          <li><span class="n">2</span><div><b>Producimos</b><span>Lugar, artistas, sonido, ambientación y logística de la noche.</span></div></li>
+          <li><span class="n">3</span><div><b>Caemos</b><span>La noche arranca y tu gente se encuentra. Nosotros cuidamos que todo fluya.</span></div></li>
         </ol>
       </div>
       <div class="plan__panel">
-        <div class="plan__q">¿Qué se te antoja hoy?</div>
-        <div class="moods" id="moods" role="group" aria-label="Elige un plan"></div>
+        <div class="plan__q">¿Qué quieres armar?</div>
+        <div class="moods" id="moods" role="group" aria-label="Elige un servicio"></div>
         <div class="plan__out" id="planout" aria-live="polite"></div>
       </div>
     </div>
@@ -139,9 +139,9 @@
 
     <div class="lead" id="avisame">
       <div>
-        <span class="eyebrow">No te pierdas ninguno</span>
-        <h2 class="h2-big">Avísame del próximo plan</h2>
-        <p class="plan__intro">Déjanos tu WhatsApp o correo y te escribimos cuando se abra la preventa o salga una nueva fecha.</p>
+        <span class="eyebrow">Mantente al día</span>
+        <h2 class="h2-big">Entérate de lo que viene</h2>
+        <p class="plan__intro">Déjanos tu WhatsApp o correo y te avisamos cuando anunciemos nuestro próximo evento.</p>
       </div>
       <form id="leadform" novalidate>
         <div class="field">
@@ -163,10 +163,10 @@
     </div>
 
     <div class="band" id="contacto">
-      <span class="eyebrow">Marcas y auspiciantes</span>
-      <h2>Pon tu marca donde está la fiesta</h2>
-      <p>Activaciones, degustaciones y auspicios en eventos con público universitario de Quito. Cuéntanos qué quieres lograr y armamos la propuesta.</p>
-      <a class="btn btn--star" href="#" data-social="facebook" data-label="Quiero auspiciar">Quiero auspiciar</a>
+      <span class="eyebrow">Trabajemos juntos</span>
+      <h2>¿Tienes un evento en mente?</h2>
+      <p>Fiestas temáticas, encuentros universitarios y activaciones de marca. Cuéntanos la idea, el público y la fecha, y armamos la propuesta.</p>
+      <a class="btn btn--star" href="#" data-social="facebook" data-label="Contacto">Escríbenos por Facebook</a>
     </div>
   </section>
 </main>
@@ -178,18 +178,18 @@
         <img class="brand__mark" src="assets/logo.png" width="48" height="48" alt="">
         <span class="brand__text">¡Hoy te<span>Caigo!</span></span>
       </a>
-      <p>Eventos, vida nocturna y fiestas temáticas universitarias en Quito, Ecuador.</p>
+      <p>Productora de eventos, vida nocturna y fiestas temáticas universitarias en Quito, Ecuador.</p>
     </div>
     <div><h4>Síguenos</h4><ul id="social"></ul></div>
-    <div><h4>Entradas</h4><ul>
-      <li><a href="#" data-soon="Términos de compra">Términos de compra</a></li>
-      <li><a href="#" data-soon="Reembolsos y cambios">Reembolsos y cambios</a></li>
-      <li><a href="#" data-soon="Reglas de ingreso">Reglas de ingreso</a></li>
+    <div><h4>Explora</h4><ul>
+      <li><a href="#portafolio">Portafolio</a></li>
+      <li><a href="#servicios">Qué hacemos</a></li>
+      <li><a href="#vibra">La vibra</a></li>
     </ul></div>
     <div><h4>Contacto</h4><ul>
-      <li><a href="#contacto">Marcas y auspiciantes</a></li>
+      <li><a href="#contacto">Trabajemos juntos</a></li>
+      <li><a href="#avisame">Recibir avisos</a></li>
       <li><a href="#" data-open-chat>Preguntar al asistente</a></li>
-      <li><a href="#cartelera">Cartelera</a></li>
     </ul></div>
   </div>
   <div class="legal"><span>© 2026 Hoy te Caigo · Quito, Ecuador</span><span>Prohibida la venta de alcohol a menores de 18 años. Consume con responsabilidad.</span></div>
@@ -204,7 +204,7 @@
 <!-- Chatbot -->
 <button type="button" class="chat-fab" id="chatfab" aria-label="Abrir el asistente de Hoy te Caigo" aria-expanded="false" aria-controls="chatpanel">
   <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" fill="#fff" stroke="#1b1410" stroke-width="2.4" stroke-linejoin="round"/><circle cx="9" cy="10.5" r="1.3" fill="#1b1410"/><circle cx="12" cy="10.5" r="1.3" fill="#1b1410"/><circle cx="15" cy="10.5" r="1.3" fill="#1b1410"/></svg>
-  <span>¿Qué hay hoy?</span>
+  <span>Pregúntanos</span>
 </button>
 <section class="chat" id="chatpanel" hidden aria-label="Asistente de Hoy te Caigo">
   <header class="chat__head">
@@ -216,7 +216,7 @@
   <div class="chat__quick" id="chatquick"></div>
   <form class="chat__form" id="chatform" autocomplete="off">
     <label class="sr" for="chatin">Escribe tu pregunta</label>
-    <input id="chatin" type="text" maxlength="400" placeholder="Pregunta por eventos, entradas…" required>
+    <input id="chatin" type="text" maxlength="400" placeholder="Pregunta por nuestros eventos…" required>
     <button class="btn btn--sm" type="submit">Enviar</button>
   </form>
 </section>
