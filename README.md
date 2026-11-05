@@ -102,6 +102,17 @@ Si agregas un evento **futuro** con el campo `iso` (ejemplo `2026-12-05T23:00:00
 
 La clave de la API **nunca** va en el navegador ni en el repositorio. `api/chat.js` limita mensajes y frecuencia de forma básica; para tráfico alto agrega un límite de uso externo.
 
+## Animaciones
+
+Están separadas del resto: `css/motion.css` (cómo se mueve todo) y `js/motion.js` (qué aparece al hacer scroll). Para quitarlas por completo basta con borrar la línea de `motion.css` en `index.html` y `"js/motion.js"` en `js/boot.js`.
+
+- **Entrada del hero:** el texto se arma en orden, el logo entra con un golpe de cómic y una onda amarilla, y los íconos aparecen uno por uno.
+- **Ambiente:** los íconos flotan, el logo «respira» muy despacio y el fondo de puntos baja lentamente.
+- **Al hacer scroll:** secciones, tarjetas, pasos, videos y bloques aparecen con un movimiento corto y escalonado. Solo se esconde lo que está debajo de la pantalla al cargar.
+- **Al tocar o pasar el cursor:** las fotos de las tarjetas se acercan, la fecha se inclina, el botón de play de los videos late.
+- **Al cambiar contenido:** filtrar el portafolio o cambiar de servicio entra con una transición corta.
+- **Accesibilidad:** si el visitante tiene activado «reducir movimiento» en su dispositivo, no se anima nada y todo se ve completo desde el inicio. Solo se animan `transform` y `opacity`, para que vaya fluido en celulares.
+
 ## Publicar
 
 Vercel despliega solo cada vez que se sube un cambio a `main`. Nota: el plan gratuito de Vercel (Hobby) es para uso no comercial; revisa sus términos si la página empieza a generar ingresos.

@@ -7,7 +7,7 @@
   "use strict";
   var CFG = window.HTC_CONFIG || {};
   var S = CFG.supabase || {};
-  var scripts = ["js/app.js", "js/chatbot.js"];
+  var scripts = ["js/app.js", "js/chatbot.js", "js/motion.js"];
 
   function load(i) {
     if (i >= scripts.length) return;
