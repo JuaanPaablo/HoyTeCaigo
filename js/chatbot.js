@@ -39,6 +39,7 @@
 
   function open(on) {
     panel.hidden = !on;
+    document.body.classList.toggle("chat-open", on);   // oculta el botón de WhatsApp mientras el chat está abierto
     fab.setAttribute("aria-expanded", String(on));
     if (on) {
       if (!greeted) { greeted = true; add("assistant", "¡Hola! Soy el asistente de Hoy te Caigo. Pregúntame qué hacemos, qué eventos hemos producido o cómo cotizar uno."); }

@@ -102,6 +102,19 @@ Si agregas un evento **futuro** con el campo `iso` (ejemplo `2026-12-05T23:00:00
 
 La clave de la API **nunca** va en el navegador ni en el repositorio. `api/chat.js` limita mensajes y frecuencia de forma básica; para tráfico alto agrega un límite de uso externo.
 
+## Mapa de cobertura
+
+La sección «Cobertura nacional» dibuja Ecuador por provincias (24, con Galápagos en un recuadro) y marca la matriz en Quito. Las provincias que se pintan se configuran en `js/config.js` → `coverage`:
+
+- `regions`: regiones completas (`"sierra"`, `"costa"`, `"oriente"`).
+- `provinces`: provincias sueltas, con su id (`"guayas"`, `"manabi"`, `"pastaza"`, `"los-rios"`, `"santo-domingo-de-los-tsachilas"`, `"galapagos"`…).
+
+Los valores actuales son **de ejemplo** (toda la Sierra, cinco de la Costa y Pastaza). La leyenda de la sección se actualiza sola. Los datos del mapa están en `js/ecuador-map.js` (generado con datos públicos de Natural Earth) y solo se descargan cuando la sección está por aparecer en pantalla.
+
+## WhatsApp
+
+Pon el número en `js/config.js` → `social.whatsapp`, con o sin código de país (`"0991234567"` o `"593991234567"`), o un enlace `wa.me`. Con eso se activan el botón flotante, el botón «Cotizar por WhatsApp» y el enlace del pie de página. El mensaje que aparece escrito se cambia en `whatsappMessage`. Mientras el número esté vacío, los botones avisan que está pendiente.
+
 ## Animaciones
 
 Están separadas del resto: `css/motion.css` (cómo se mueve todo) y `js/motion.js` (qué aparece al hacer scroll). Para quitarlas por completo basta con borrar la línea de `motion.css` en `index.html` y `"js/motion.js"` en `js/boot.js`.

@@ -72,6 +72,10 @@
   .steps .n { transition: transform .3s var(--spring); }
   .steps li:hover .n { transform: rotate(-8deg) scale(1.12); }
 
+  /* Mapa: la matriz de Quito emite una onda suave */
+  @keyframes quito-ring { 0% { transform: scale(.7); opacity: .9; } 100% { transform: scale(2.6); opacity: 0; } }
+  .map__ring { animation: quito-ring 2.4s ease-out infinite; }
+
   /* 5 · Cambios de contenido */
   .pop-in { animation: pop-card .5s var(--ease) var(--d, 0s) backwards; }   /* al filtrar el portafolio */
   .swap   { animation: swap-in .45s var(--ease) backwards; }                 /* al cambiar de servicio */

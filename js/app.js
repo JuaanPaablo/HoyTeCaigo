@@ -30,14 +30,27 @@
 
   /* Redes: activas si hay URL, "Próximamente" si no */
   var NETS = [["facebook", "Facebook"], ["instagram", "Instagram"], ["tiktok", "TikTok"], ["whatsapp", "WhatsApp"]];
+  /* WhatsApp acepta un número ("0991234567", "593991234567") o un enlace wa.me; siempre se agrega el mensaje inicial */
+  function waLink(v) {
+    var msg = encodeURIComponent(CFG.whatsappMessage || "");
+    if (/^https?:\/\//i.test(v)) return v + (v.indexOf("?") < 0 ? "?text=" + msg : "");
+    var d = String(v).replace(/\D/g, "");
+    if (/^0\d{9}$/.test(d)) d = "593" + d.slice(1);   // celular de Ecuador: 099… → 593 99…
+    return d.length >= 10 ? "https://wa.me/" + d + "?text=" + msg : "";
+  }
+  function socialHref(key) {
+    var v = SOCIAL[key];
+    if (!v) return "";
+    return key === "whatsapp" ? waLink(v) : v;
+  }
   $("#social").innerHTML = NETS.map(function (n) {
-    var u = SOCIAL[n[0]];
+    var u = socialHref(n[0]);
     return u
       ? '<li><a href="' + esc(u) + '" target="_blank" rel="noopener noreferrer">' + n[1] + '</a></li>'
       : '<li><a href="#" class="is-soon" data-soon="' + n[1] + ': próximamente">' + n[1] + '<small>Próximamente</small></a></li>';
   }).join("");
   document.querySelectorAll("[data-social]").forEach(function (a) {
-    var u = SOCIAL[a.getAttribute("data-social")];
+    var u = socialHref(a.getAttribute("data-social"));
     if (u) { a.href = u; a.target = "_blank"; a.rel = "noopener noreferrer"; }
     else { a.setAttribute("data-soon", a.getAttribute("data-label") + ": enlace próximamente."); }
   });

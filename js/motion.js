@@ -16,6 +16,11 @@
     add(".sec-head");
     add(".next__in", "slap");
     add("#events .card");
+    add(".cov__text > .eyebrow");
+    add(".cov__text > .h2-big");
+    add(".cov__text > .plan__intro");
+    add(".legend li");
+    add(".map", "slap");
     add(".plan .eyebrow");
     add(".plan .h2-big");
     add(".plan__intro");

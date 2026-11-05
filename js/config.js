@@ -10,7 +10,7 @@ window.HTC_CONFIG = {
     facebook: "https://www.facebook.com/GSproduccionesyeventos/",
     instagram: "",   // ej. "https://www.instagram.com/hoytecaigo/"
     tiktok: "",      // ej. "https://www.tiktok.com/@hoytecaigo"
-    whatsapp: ""     // ej. "https://wa.me/593XXXXXXXXX"
+    whatsapp: ""     // el número, con o sin código de país: "0991234567" o "593991234567" (o un enlace wa.me)
   },
 
   // Videos en alta definición. NO se guardan en este repositorio.
@@ -29,6 +29,18 @@ window.HTC_CONFIG = {
     url: "https://zejarsjhgjxkbpjrkfcf.supabase.co",
     anonKey: "sb_publishable_gmp7Gq7d79DSoQNgNZRSzQ_UB4KJC74"   // clave pública (publishable)
   },
+
+  // Mapa de cobertura. Se pintan TODAS las provincias de las regiones de "regions" (sierra, costa, oriente)
+  // y además las provincias sueltas de "provinces" (usa el id: "esmeraldas", "manabi", "guayas", "santa-elena",
+  // "el-oro", "los-rios", "santo-domingo-de-los-tsachilas", "sucumbios", "napo", "orellana", "pastaza",
+  // "morona-santiago", "zamora-chinchipe", "galapagos"...). Estos valores son de EJEMPLO hasta tener los reales.
+  coverage: {
+    regions: ["sierra"],
+    provinces: ["esmeraldas", "manabi", "guayas", "santa-elena", "el-oro", "pastaza"]
+  },
+
+  // Mensaje que aparece escrito cuando alguien abre WhatsApp desde la página
+  whatsappMessage: "Hola, quiero cotizar un evento con Productora GS.",
 
   // Formulario "Avísame". Envía un POST JSON { name, contact, source, consent } a este endpoint.
   // Opciones sin servidor propio: Formspree, un Google Apps Script que escriba en una hoja,
