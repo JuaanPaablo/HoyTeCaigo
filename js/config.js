@@ -21,6 +21,14 @@ window.HTC_CONFIG = {
     baseUrl: ""      // ej. "https://videos.hoytecaigo.ec/"
   },
 
+  // Formulario "Avísame". Envía un POST JSON { name, contact, source, consent } a este endpoint.
+  // Opciones sin servidor propio: Formspree, un Google Apps Script que escriba en una hoja,
+  // o una función de Firebase/Vercel. Mientras esté vacío, el formulario avisa que aún no está conectado
+  // y NO guarda nada.
+  leads: {
+    endpoint: ""     // ej. "https://formspree.io/f/xxxxxxx"
+  },
+
   // Chatbot. Mientras "endpoint" esté vacío funciona en modo demo (respuestas locales sin IA).
   // Para activar la IA, despliega api/chat.js (ver README) y pon aquí su ruta.
   chatbot: {

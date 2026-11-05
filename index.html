@@ -6,6 +6,18 @@
   <title>Hoy te Caigo</title>
   <meta name="description" content="Fiestas temáticas, micrófono abierto y encuentros universitarios en Quito, Ecuador.">
   <meta name="theme-color" content="#ffffff">
+  <!-- Vista previa al compartir. Al publicar, cambia las rutas relativas por la URL completa (ver README). -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_EC">
+  <meta property="og:site_name" content="Hoy te Caigo">
+  <meta property="og:title" content="¡Hoy te Caigo! Fiestas y eventos universitarios en Quito">
+  <meta property="og:description" content="Cartelera de fiestas temáticas, micrófono abierto y encuentros. Elige tu noche y cae con tu gente.">
+  <meta property="og:image" content="assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Logo de Hoy te Caigo: explosión de cómic con micrófono y taza de café">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="assets/og-image.png">
   <link rel="icon" href="assets/logo.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,6 +73,24 @@
 
   <div class="ticker" aria-hidden="true"><div class="ticker__row" id="ticker"></div></div>
 
+  <!-- PRÓXIMO EVENTO (se llena solo con el primer evento futuro de js/data.js) -->
+  <section class="next" id="next" aria-label="Próximo evento" hidden>
+    <div class="next__in">
+      <div class="next__info">
+        <span class="eyebrow">Próximo evento</span>
+        <h2 id="nexttitle"></h2>
+        <p id="nextmeta"></p>
+        <a class="btn btn--star" href="#cartelera">Ver cartelera</a>
+      </div>
+      <div class="count" role="timer" aria-label="Tiempo que falta para el evento">
+        <div><b id="cd-d">0</b><small>Días</small></div>
+        <div><b id="cd-h">0</b><small>Horas</small></div>
+        <div><b id="cd-m">0</b><small>Min</small></div>
+        <div><b id="cd-s">0</b><small>Seg</small></div>
+      </div>
+    </div>
+  </section>
+
   <!-- CARTELERA -->
   <section id="cartelera">
     <div class="sec-head">
@@ -104,6 +134,31 @@
       <a class="btn btn--sm btn--yellow" href="#" data-social="facebook" data-label="Síguenos en Facebook">Síguenos en Facebook</a>
     </div>
     <div class="feed" id="feed"></div>
+
+    <div class="lead" id="avisame">
+      <div>
+        <span class="eyebrow">No te pierdas ninguno</span>
+        <h2 class="h2-big">Avísame del próximo plan</h2>
+        <p class="plan__intro">Déjanos tu WhatsApp o correo y te escribimos cuando se abra la preventa o salga una nueva fecha.</p>
+      </div>
+      <form id="leadform" novalidate>
+        <div class="field">
+          <label for="lead-name">Tu nombre <span>(opcional)</span></label>
+          <input id="lead-name" name="name" type="text" maxlength="60" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="lead-contact">WhatsApp o correo</label>
+          <input id="lead-contact" name="contact" type="text" maxlength="120" inputmode="email" autocomplete="email" required placeholder="0991234567 o tu@correo.com">
+        </div>
+        <label class="check" for="lead-ok">
+          <input id="lead-ok" name="consent" type="checkbox" required>
+          <span>Acepto que Hoy te Caigo use mis datos solo para enviarme avisos de eventos. Puedo pedir que me borren cuando quiera.</span>
+        </label>
+        <div class="hp" aria-hidden="true"><label for="lead-web">No llenar</label><input id="lead-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+        <button class="btn btn--star" type="submit">Avísame</button>
+        <p class="lead__msg" id="leadmsg" role="status"></p>
+      </form>
+    </div>
 
     <div class="band" id="contacto">
       <span class="eyebrow">Marcas y auspiciantes</span>

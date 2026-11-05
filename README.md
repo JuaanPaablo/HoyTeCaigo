@@ -15,6 +15,7 @@ js/chatbot.js         Widget de chat (modo demo o con IA)
 api/chat.js           Función serverless que llama a la IA (Vercel)
 api/_knowledge.js     Lo que sabe el chatbot con IA
 assets/logo.png       Logo original (PNG con fondo transparente)
+assets/og-image.png   Imagen de vista previa al compartir el link
 ```
 
 ## Ver la página en local
@@ -58,6 +59,24 @@ Pasos con almacenamiento de archivos (R2, B2, Bunny Storage):
   3. En `js/config.js` pon `chatbot.endpoint: "/api/chat"`.
 
 La clave de la API **nunca** va en el navegador ni en el repositorio. `api/chat.js` limita mensajes y frecuencia de forma básica; para tráfico alto agrega un límite de uso externo.
+
+## Avísame (captura de contactos)
+
+El formulario "Avísame del próximo plan" pide WhatsApp o correo y consentimiento. **No guarda nada hasta que pongas `leads.endpoint` en `js/config.js`**; mientras tanto le dice al usuario que aún no está conectado. Opciones para recibir los datos:
+
+- **Formspree o similar:** crea un formulario y pega su URL. Es lo más rápido.
+- **Google Apps Script:** una hoja de cálculo que recibe el POST.
+- **Firebase (Firestore) o una función de Vercel:** si quieres tenerlo en tu propia base.
+
+Envía `POST` JSON `{ name, contact, consent, source }`. Guarda solo lo necesario y ofrece borrar los datos a quien lo pida (ley de protección de datos personales de Ecuador).
+
+## Vista previa al compartir (WhatsApp, Facebook)
+
+`assets/og-image.png` (1200×630) y las etiquetas `og:` de `index.html` controlan cómo se ve el link al compartirlo. Las rutas están relativas; **al publicar, cámbialas por la URL completa**, por ejemplo `https://hoytecaigo.vercel.app/assets/og-image.png`, porque WhatsApp y Facebook no leen rutas relativas.
+
+## Próximo evento
+
+La barra amarilla con cuenta regresiva toma el primer evento con fecha futura. Usa el campo `iso` de cada evento en `js/data.js` (ejemplo `2026-11-14T22:00:00-05:00`; Ecuador es -05:00).
 
 ## Publicar
 

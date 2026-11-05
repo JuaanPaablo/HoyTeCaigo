@@ -160,6 +160,36 @@ section { padding-block: 72px 24px; }
 .note { font-size: .8rem; color: var(--ink-soft); margin-top: 6px; }
 .note:empty { display: none; }
 
+/* ---------- Próximo evento ---------- */
+section.next { padding-block: 56px 0; }
+.next__in { display: grid; gap: 24px; align-items: center; background: var(--yellow); border: 3px solid var(--ink); border-radius: 20px; box-shadow: 8px 8px 0 var(--ink); padding: 26px 22px; position: relative; overflow: hidden; isolation: isolate; }
+.next__in::before { content: ""; position: absolute; z-index: -1; inset: 0; background-image: radial-gradient(circle, rgba(255,106,19,.4) 2.4px, transparent 3px); background-size: 18px 18px; -webkit-mask-image: linear-gradient(100deg, transparent 35%, #000); mask-image: linear-gradient(100deg, transparent 35%, #000); }
+@media (min-width: 820px) { .next__in { grid-template-columns: 1.2fr 1fr; padding: 32px 36px; } }
+.next__info { display: grid; gap: 12px; justify-items: start; }
+.next__info h2 { font-weight: 900; font-style: italic; text-transform: uppercase; font-size: clamp(1.7rem, 5.5vw, 2.8rem); line-height: 1; }
+.next__info p { font-weight: 600; }
+.count { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.count div { background: var(--white); border: 2.5px solid var(--ink); border-radius: 12px; box-shadow: 3px 3px 0 var(--ink); text-align: center; padding: 12px 4px 10px; }
+.count b { display: block; font: 900 clamp(1.5rem, 6vw, 2.4rem)/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.count small { font: 800 .62rem var(--font-display); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+
+/* ---------- Avísame (captura de contactos) ---------- */
+.lead { margin-top: 80px; display: grid; gap: 24px; border: 3px solid var(--ink); border-radius: 20px; padding: 28px 22px; background: var(--white); box-shadow: 8px 8px 0 var(--orange); }
+@media (min-width: 820px) { .lead { grid-template-columns: 1fr 1fr; padding: 36px; gap: 40px; align-items: center; } }
+.lead form { display: grid; gap: 14px; }
+.field { display: grid; gap: 6px; }
+.field label { font: 800 .78rem var(--font-display); letter-spacing: .08em; text-transform: uppercase; }
+.field label span { font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--ink-soft); }
+.field input { min-height: 50px; padding: 0 14px; font: 500 16px var(--font-body); color: var(--ink); background: var(--white); border: 2.5px solid var(--ink); border-radius: 10px; }
+.field input:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+.field input[aria-invalid="true"] { border-color: var(--orange-deep); background: #fff1ea; }
+.check { display: grid; grid-template-columns: 24px 1fr; gap: 10px; align-items: start; font-size: .82rem; color: var(--ink-soft); cursor: pointer; }
+.check input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--orange); }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.lead form .btn { justify-self: start; }
+.lead__msg { min-height: 1.4em; font-size: .9rem; font-weight: 600; }
+.lead__msg.err { color: var(--orange-deep); }
+
 /* ---------- Tarjetas ---------- */
 .grid { display: grid; gap: 26px 24px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
 .card {

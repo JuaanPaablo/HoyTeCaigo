@@ -125,4 +125,60 @@
   $("#vidx").addEventListener("click", closeVid);
   dlg.addEventListener("click", function (e) { if (e.target === dlg) closeVid(); });
   dlg.addEventListener("close", function () { player.pause(); });
+
+  /* Próximo evento con cuenta regresiva: el primer evento con fecha futura (campo iso en data.js) */
+  var upcoming = EVENTS.filter(function (e) { return e.iso && Date.parse(e.iso) > Date.now(); })
+    .sort(function (a, b) { return Date.parse(a.iso) - Date.parse(b.iso); })[0];
+  if (upcoming) {
+    var target = Date.parse(upcoming.iso);
+    $("#nexttitle").textContent = upcoming.t;
+    $("#nextmeta").textContent = upcoming.day + " " + upcoming.d + " " + upcoming.m + " · " + upcoming.h + " · " + upcoming.loc + ", Quito";
+    $("#next").hidden = false;
+    var pad = function (n) { return n < 10 ? "0" + n : String(n); };
+    var tick = function () {
+      var s = Math.max(0, Math.floor((target - Date.now()) / 1000));
+      $("#cd-d").textContent = Math.floor(s / 86400);
+      $("#cd-h").textContent = pad(Math.floor(s % 86400 / 3600));
+      $("#cd-m").textContent = pad(Math.floor(s % 3600 / 60));
+      $("#cd-s").textContent = pad(s % 60);
+      if (s === 0) clearInterval(timer);
+    };
+    var timer = setInterval(tick, 1000);
+    tick();
+  }
+
+  /* Formulario "Avísame". Sin endpoint en config no guarda nada y lo dice. */
+  var form = $("#leadform"), msg = $("#leadmsg"), sending = false;
+  function leadMsg(text, bad) { msg.textContent = text; msg.className = "lead__msg" + (bad ? " err" : ""); }
+  function validContact(v) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) || /^\+?[\d\s-]{7,15}$/.test(v);
+  }
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (sending) return;
+    var name = $("#lead-name").value.trim();
+    var contact = $("#lead-contact").value.trim();
+    var ok = $("#lead-ok").checked;
+    $("#lead-contact").setAttribute("aria-invalid", "false");
+    if (!validContact(contact)) {
+      $("#lead-contact").setAttribute("aria-invalid", "true");
+      leadMsg("Escribe un correo válido o un número de WhatsApp (solo dígitos).", true);
+      $("#lead-contact").focus(); return;
+    }
+    if (!ok) { leadMsg("Marca la casilla para que podamos escribirte.", true); $("#lead-ok").focus(); return; }
+    if ($("#lead-web").value) { leadMsg("¡Listo! Te avisamos."); form.reset(); return; }   // trampa para bots
+    var url = (CFG.leads && CFG.leads.endpoint) || "";
+    if (!url) { leadMsg("El registro aún no está conectado. Vuelve pronto o escríbenos por Facebook.", true); return; }
+    sending = true; leadMsg("Enviando…");
+    fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({ name: name, contact: contact, consent: true, source: "landing" })
+    }).then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      leadMsg("¡Listo! Te avisamos del próximo plan."); form.reset();
+    }).catch(function () {
+      leadMsg("No pudimos guardar tus datos. Intenta de nuevo en un momento.", true);
+    }).then(function () { sending = false; });
+  });
 })();
