@@ -249,22 +249,24 @@ section.next { padding-block: 56px 0; }
 
 /* ---------- Feed ---------- */
 .feed-head { margin-top: 64px; }
-.feed { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 6px 4px 18px; margin: 0 -4px; scrollbar-width: thin; }
+/* Los videos son horizontales (16:9): las portadas también, para no recortarlas ni agrandarlas de más. */
+.feed { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 6px 4px 20px; margin: 0 -4px; scrollbar-width: thin; }
 .clip {
-  position: relative; flex: 0 0 62%; max-width: 230px; aspect-ratio: 9 / 16; scroll-snap-align: start; padding: 0; background: var(--yellow);
+  display: flex; flex-direction: column; flex: 0 0 84%; max-width: 360px; scroll-snap-align: start; padding: 0; background: var(--white);
   border: 2.5px solid var(--ink); border-radius: 16px; overflow: hidden; text-align: left; font: inherit; color: var(--ink); cursor: pointer;
   transition: transform .18s cubic-bezier(.3,1.5,.5,1), box-shadow .18s;
 }
-.clip:hover { transform: translateY(-6px) rotate(-1deg); box-shadow: 6px 8px 0 var(--orange); }
-.clip > img, .clip > video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.clip .ph img { width: 82%; }
-.clip__play { position: absolute; top: 50%; left: 50%; width: 58px; height: 58px; margin: -29px 0 0 -29px; background: var(--white); border: 2.5px solid var(--ink); border-radius: 50%; display: grid; place-items: center; box-shadow: 3px 3px 0 var(--ink); }
-.clip__cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 30px 12px 12px; background: linear-gradient(transparent, rgba(255,255,255,.96) 55%); font-size: .8rem; font-weight: 600; line-height: 1.3; }
-.clip__cap b { display: block; font: 900 .9rem var(--font-display); text-transform: uppercase; font-style: italic; }
-.clip__views { position: absolute; top: 10px; left: 10px; background: var(--ink); color: var(--white); font: 600 .7rem var(--font-body); padding: 3px 9px; border-radius: 999px; }
-@media (min-width: 760px) { .feed { overflow: visible; display: grid; grid-template-columns: repeat(5, 1fr); } .clip { flex: none; max-width: none; } }
+.clip:hover { transform: translateY(-6px); box-shadow: 6px 8px 0 var(--orange); }
+.clip__media { position: relative; display: block; aspect-ratio: 16 / 9; background: var(--ink); overflow: hidden; border-bottom: 2.5px solid var(--ink); }
+.clip__media > img, .clip__media > video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.clip .ph img { width: 46%; }
+.clip__play { position: absolute; top: 50%; left: 50%; width: 56px; height: 56px; margin: -28px 0 0 -28px; background: var(--yellow); border: 2.5px solid var(--ink); border-radius: 50%; display: grid; place-items: center; box-shadow: 3px 3px 0 var(--ink); transition: transform .15s; }
+.clip:hover .clip__play { transform: scale(1.1); }
+.clip__cap { display: block; padding: 12px 14px 14px; font-size: .86rem; font-weight: 500; line-height: 1.35; color: var(--ink-soft); }
+.clip__cap b { display: block; margin-bottom: 2px; font: 900 .95rem var(--font-display); text-transform: uppercase; font-style: italic; color: var(--ink); }
+@media (min-width: 760px) { .feed { overflow: visible; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); } .clip { flex: none; max-width: none; } }
 
-.vid { width: min(92vw, 420px); padding: 0; border: 3px solid var(--ink); border-radius: 16px; background: #000; overflow: hidden; box-shadow: 8px 8px 0 var(--orange); }
+.vid { width: min(94vw, 860px); padding: 0; border: 3px solid var(--ink); border-radius: 16px; background: #000; overflow: hidden; box-shadow: 8px 8px 0 var(--orange); }
 .vid::backdrop { background: rgba(27,20,16,.6); }
 .vid video { display: block; width: 100%; max-height: 80vh; background: #000; }
 .vid__x, .chat__x { position: absolute; top: 8px; right: 8px; z-index: 2; width: 44px; height: 44px; border-radius: 50%; border: 2.5px solid var(--ink); background: var(--yellow); color: var(--ink); font: 900 1.5rem/1 var(--font-display); cursor: pointer; }

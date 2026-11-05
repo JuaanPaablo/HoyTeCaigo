@@ -123,13 +123,24 @@
       var live = !!(VBASE && v.src);
       var bg;
       if (!live) bg = placeholder(v.c1 || "#ff6a13");
-      else if (v.poster) bg = '<img loading="lazy" src="' + esc(vurl(v.poster)) + '" alt="">';
+      /* Portada en imagen (liviana y nítida). Si el archivo no existe, la página usa el primer cuadro del video. */
+      else if (v.poster) bg = '<img loading="lazy" decoding="async" src="' + esc(vurl(v.poster)) + '" data-fb="' + esc(vurl(v.src)) + '" alt="">';
       else bg = '<video muted playsinline preload="metadata" tabindex="-1" aria-hidden="true" src="' + esc(vurl(v.src)) + '#t=0.1"></video>';
-      return '<button type="button" class="clip" data-i="' + i + '" aria-label="Ver video: ' + esc(v.title) + '">' + bg +
-        '<span class="clip__play"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#1b1410"/></svg></span>' +
+      return '<button type="button" class="clip" data-i="' + i + '" aria-label="Ver video: ' + esc(v.title) + '">' +
+        '<span class="clip__media">' + bg +
+        '<span class="clip__play"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#1b1410"/></svg></span></span>' +
         '<span class="clip__cap"><b>' + esc(v.title) + '</b>' + esc(v.cap || "") + '</span></button>';
     }).join("");
   }
+  /* Si una portada no existe en el bucket, se cambia por el primer cuadro del propio video */
+  feed.addEventListener("error", function (e) {
+    var im = e.target;
+    if (im.tagName !== "IMG" || !im.getAttribute("data-fb")) return;
+    var v = document.createElement("video");
+    v.muted = true; v.playsInline = true; v.preload = "metadata"; v.setAttribute("aria-hidden", "true"); v.tabIndex = -1;
+    v.src = im.getAttribute("data-fb") + "#t=0.1";
+    im.replaceWith(v);
+  }, true);
   feed.addEventListener("click", function (e) {
     var b = e.target.closest(".clip"); if (!b) return;
     var v = clips[+b.dataset.i];
@@ -153,7 +164,7 @@
         if (--pending === 0) {
           if (found.length) {
             found.sort(function (a, b) { return a - b; });
-            renderFeed(found.map(function (k) { return { title: "Evento " + k, cap: "Video del evento", src: "clip-" + k + ".mp4", poster: "", c1: "#ff6a13" }; }), "");
+            renderFeed(found.map(function (k) { return { title: "Evento " + k, cap: "Video del evento", src: "clip-" + k + ".mp4", poster: "poster-" + k + ".jpg", c1: "#ff6a13" }; }), "");
           } else {
             renderFeed(VIDEOS, "Clips de ejemplo. Sube clip-1.mp4, clip-2.mp4… al bucket para verlos aquí.");
           }
