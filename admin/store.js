@@ -60,10 +60,10 @@ window.HTC_STORE = (function () {
   var R2 = "https://pub-618376711601422cada62a8ebf4b0b92.r2.dev/";
   function seed() {
     var cats = [
-      { id: "c1", name: "Electrónica", color: "#ff6a13", sort_order: 1 },
-      { id: "c2", name: "Urbano", color: "#ffd21f", sort_order: 2 },
-      { id: "c3", name: "Universitaria", color: "#ff6a13", sort_order: 3 },
-      { id: "c4", name: "Social", color: "#ffb347", sort_order: 4 }
+      { id: "c1", name: "Universitarios", color: "#ff6a13", sort_order: 1 },
+      { id: "c2", name: "Culturales", color: "#ffb347", sort_order: 2 },
+      { id: "c3", name: "Provinciales", color: "#ffd21f", sort_order: 3 },
+      { id: "c4", name: "Corporativos", color: "#ff6a13", sort_order: 4 }
     ];
     var vids = [1, 2, 3, 4, 5].map(function (n) {
       return { id: "v" + n, title: "Evento " + n, caption: "Video del evento", src: R2 + "clip-" + n + ".mp4", poster_url: R2 + "poster-" + n + ".jpg", sort_order: n, published: true, created_at: "2026-10-20T10:0" + n + ":00Z" };
@@ -78,12 +78,12 @@ window.HTC_STORE = (function () {
         { id: "l2", name: null, contact: "mateo@correo.com", source: "landing", consent: true, status: "contactado", notes: null, created_at: "2026-11-02T21:05:00Z" }
       ],
       events: [
-        ev(1, "Café y Micro Abierto", "c4", "2026-10-28", "18:30:00", "La Floresta", ["Micrófono abierto", "Host: Pame"], "Noche de stand-up, poesía y música en vivo para conocer gente en un ambiente tranquilo."),
-        ev(2, "Perreo Pop-Art", "c2", "2026-10-23", "21:30:00", "Cumbayá", ["DJ Zaida", "Lalo Beat", "MC Quito"], "Fiesta urbana con estética pop-art, pista llena y artistas locales."),
-        ev(3, "Neón Universitario", "c1", "2026-10-17", "22:00:00", "La Mariscal", ["Kuri", "Mateo Ríos", "Sol B2B Nico"], "Fiesta temática de neón con DJs de música electrónica y dress code fluorescente."),
-        ev(4, "Techno en la Terraza", "c1", "2026-10-10", "23:00:00", "Cumbayá", ["Anka", "Ro Vega", "Lumen"], "Noche de techno al aire libre con vista a la ciudad."),
-        ev(5, "Retro 2000s", "c3", "2026-10-09", "21:00:00", "La Mariscal", ["DJ Pixel", "Vale Vinilo"], "Los hits de los 2000 para cantar a todo pulmón con tu grupo de la universidad."),
-        ev(6, "Bienvenida Universitaria", "c3", "2026-10-03", "21:00:00", "González Suárez", ["Trío Sinapsis", "DJ Chuta", "Invitado sorpresa"], "Fiesta de inicio de ciclo para que los estudiantes de distintas universidades se encuentren.")
+        ev(1, "Festival Cultural de Primavera", "c2", "2026-10-28", "18:30:00", "Quito", ["Artistas invitados", "Presenta: Pame"], "Jornada de música, poesía y artes en vivo abierta a toda la ciudad."),
+        ev(2, "Feria Universitaria", "c1", "2026-10-23", "10:00:00", "Quito", ["DJ Zaida", "MC Quito"], "Encuentro de estudiantes de distintas universidades con escenario, stands y activaciones."),
+        ev(3, "Gran Concierto Provincial", "c3", "2026-10-17", "20:00:00", "Cuenca", ["Kuri", "Mateo Ríos", "Sol B2B Nico"], "Producción de gran formato con escenario, sonido e iluminación para miles de asistentes."),
+        ev(4, "Lanzamiento de Marca", "c4", "2026-10-10", "19:00:00", "Guayaquil", ["Anka", "Ro Vega"], "Evento de presentación para clientes y medios, con ambientación y show en vivo."),
+        ev(5, "Encuentro Cultural", "c2", "2026-10-09", "19:00:00", "Ambato", ["DJ Pixel", "Vale Vinilo"], "Noche de música y cultura local en un formato cercano para la comunidad."),
+        ev(6, "Bienvenida Universitaria", "c1", "2026-10-03", "21:00:00", "Quito", ["Trío Sinapsis", "DJ Chuta", "Invitado sorpresa"], "Evento de inicio de ciclo para que los estudiantes de distintas universidades se encuentren.")
       ]
     };
   }

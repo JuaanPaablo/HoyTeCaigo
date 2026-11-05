@@ -9,7 +9,7 @@
   var MES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
   var DIA = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
   var MAX_VIDEO_MB = 50;      // tope del plan gratuito de Supabase Storage por archivo
-  var DEFAULT_ZONES = ["La Mariscal", "Cumbayá", "La Floresta", "González Suárez"];
+  var DEFAULT_ZONES = ["Quito", "Guayaquil", "Cuenca", "Ambato", "Loja", "Manta"];   // sugerencias; se puede escribir cualquier ciudad o zona
 
   var st = { tab: "events", cats: [], events: [], videos: [], leads: [], q: "", cat: "", loading: true };
 
@@ -169,7 +169,7 @@
       '<div class="field"><label for="f-title">Nombre del evento</label><input id="f-title" type="text" maxlength="90" required value="' + esc(ev.title) + '"></div>' +
       '<div class="row2"><div class="field"><label for="f-cat">Categoría</label><select id="f-cat" required>' +
       st.cats.map(function (c) { return '<option value="' + c.id + '"' + (ev.category_id === c.id ? " selected" : "") + '>' + esc(c.name) + '</option>'; }).join("") + '</select></div>' +
-      '<div class="field"><label for="f-zone">Zona</label><input id="f-zone" type="text" list="zones" maxlength="60" value="' + esc(ev.zone || "") + '"><datalist id="zones">' + zones.map(function (z) { return '<option value="' + esc(z) + '">'; }).join("") + '</datalist></div></div>' +
+      '<div class="field"><label for="f-zone">Ciudad o zona</label><input id="f-zone" type="text" list="zones" maxlength="60" value="' + esc(ev.zone || "") + '"><datalist id="zones">' + zones.map(function (z) { return '<option value="' + esc(z) + '">'; }).join("") + '</datalist></div></div>' +
       '<div class="row2"><div class="field"><label for="f-date">Fecha</label><input id="f-date" type="date" required value="' + esc(ev.event_date || "") + '"></div>' +
       '<div class="field"><label for="f-time">Hora <span class="muted">(opcional)</span></label><input id="f-time" type="time" value="' + esc(String(ev.event_time || "").slice(0, 5)) + '"></div></div>' +
       '<div class="field"><label for="f-art">Artistas</label><textarea id="f-art" placeholder="Uno por línea">' + esc((ev.artists || []).join("\n")) + '</textarea></div>' +

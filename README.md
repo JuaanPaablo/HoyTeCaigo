@@ -1,6 +1,6 @@
 # Hoy te Caigo
 
-Landing page-portafolio de **Hoy te Caigo**, productora de eventos, vida nocturna y fiestas temáticas universitarias en Quito, Ecuador.
+Landing page-portafolio de **Hoy te Caigo**, marca de **Productora GS**: eventos pequeños, medianos y grandes, con cobertura a nivel nacional y matriz en Quito, Ecuador.
 Sitio estático (HTML, CSS y JavaScript puro, sin build) con una función serverless opcional para el chatbot.
 
 ## Estructura

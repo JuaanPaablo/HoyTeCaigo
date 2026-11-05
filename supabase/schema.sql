@@ -75,10 +75,10 @@ create policy "media equipo borrar" on storage.objects for delete to authenticat
 
 -- ========== Datos iniciales (los mismos de ejemplo de la página) ==========
 insert into public.categories (name, color, sort_order) values
-  ('Electrónica',   '#ff6a13', 1),
-  ('Urbano',        '#ffd21f', 2),
-  ('Universitaria', '#ff6a13', 3),
-  ('Social',        '#ffb347', 4)
+  ('Universitarios', '#ff6a13', 1),
+  ('Culturales',     '#ffb347', 2),
+  ('Provinciales',   '#ffd21f', 3),
+  ('Corporativos',   '#ff6a13', 4)
 on conflict (name) do nothing;
 
 -- Videos que ya subiste al bucket de Cloudflare R2 (ajusta títulos desde el panel).
@@ -95,12 +95,12 @@ where not exists (select 1 from public.videos);
 insert into public.events (title, category_id, event_date, event_time, zone, artists, description)
 select e.title, (select id from public.categories where name = e.cat), e.d::date, e.t::time, e.zone, e.artists, e.descr
 from (values
-  ('Café y Micro Abierto',     'Social',        '2026-10-28', '18:30', 'La Floresta',      array['Micrófono abierto','Host: Pame'],               'Noche de stand-up, poesía y música en vivo para conocer gente en un ambiente tranquilo.'),
-  ('Perreo Pop-Art',           'Urbano',        '2026-10-23', '21:30', 'Cumbayá',          array['DJ Zaida','Lalo Beat','MC Quito'],              'Fiesta urbana con estética pop-art, pista llena y artistas locales.'),
-  ('Neón Universitario',       'Electrónica',   '2026-10-17', '22:00', 'La Mariscal',      array['Kuri','Mateo Ríos','Sol B2B Nico'],             'Fiesta temática de neón con DJs de música electrónica y dress code fluorescente.'),
-  ('Techno en la Terraza',     'Electrónica',   '2026-10-10', '23:00', 'Cumbayá',          array['Anka','Ro Vega','Lumen'],                       'Noche de techno al aire libre con vista a la ciudad.'),
-  ('Retro 2000s',              'Universitaria', '2026-10-09', '21:00', 'La Mariscal',      array['DJ Pixel','Vale Vinilo'],                       'Los hits de los 2000 para cantar a todo pulmón con tu grupo de la universidad.'),
-  ('Bienvenida Universitaria', 'Universitaria', '2026-10-03', '21:00', 'González Suárez',  array['Trío Sinapsis','DJ Chuta','Invitado sorpresa'], 'Fiesta de inicio de ciclo para que los estudiantes de distintas universidades se encuentren.')
+  ('Festival Cultural de Primavera', 'Culturales',     '2026-10-28', '18:30', 'Quito',      array['Artistas invitados','Presenta: Pame'],          'Jornada de música, poesía y artes en vivo abierta a toda la ciudad.'),
+  ('Feria Universitaria',            'Universitarios', '2026-10-23', '10:00', 'Quito',      array['DJ Zaida','MC Quito'],                          'Encuentro de estudiantes de distintas universidades con escenario, stands y activaciones.'),
+  ('Gran Concierto Provincial',      'Provinciales',   '2026-10-17', '20:00', 'Cuenca',     array['Kuri','Mateo Ríos','Sol B2B Nico'],             'Producción de gran formato con escenario, sonido e iluminación para miles de asistentes.'),
+  ('Lanzamiento de Marca',           'Corporativos',   '2026-10-10', '19:00', 'Guayaquil',  array['Anka','Ro Vega'],                               'Evento de presentación para clientes y medios, con ambientación y show en vivo.'),
+  ('Encuentro Cultural',             'Culturales',     '2026-10-09', '19:00', 'Ambato',     array['DJ Pixel','Vale Vinilo'],                       'Noche de música y cultura local en un formato cercano para la comunidad.'),
+  ('Bienvenida Universitaria',       'Universitarios', '2026-10-03', '21:00', 'Quito',      array['Trío Sinapsis','DJ Chuta','Invitado sorpresa'], 'Evento de inicio de ciclo para que los estudiantes de distintas universidades se encuentren.')
 ) as e(title, cat, d, t, zone, artists, descr)
 where not exists (select 1 from public.events);
 

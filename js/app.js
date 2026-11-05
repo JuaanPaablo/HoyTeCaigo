@@ -43,7 +43,7 @@
   });
 
   /* Cinta */
-  var words = ["Fiestas temáticas", "Micrófono abierto", "Producción de eventos", "Electrónica", "Urbano", "Quito de noche", "¡Hoy te caigo!"];
+  var words = ["Eventos pequeños", "Eventos medianos", "Grandes producciones", "Producción integral", "Todo el Ecuador", "Productora GS", "¡Hoy te caigo!"];
   var tk = words.map(function (w) { return "<span>" + w + "</span>"; }).join("");
   $("#ticker").innerHTML = tk + tk;
 
@@ -78,7 +78,7 @@
     return '<article class="card" data-cat="' + esc(e.c) + '">' +
       '<div class="card__art">' + art + '<div class="card__date"><b>' + esc(e.d) + '</b><small>' + esc(e.m) + '</small></div><span class="card__tag">' + esc(e.c) + '</span></div>' +
       '<div class="card__body"><h3>' + esc(e.t) + '</h3>' +
-      '<div class="card__where">' + pin + esc(e.loc) + ', Quito</div>' +
+      '<div class="card__where">' + pin + esc(e.loc) + '</div>' +
       '<div class="card__when">' + esc(e.day) + (e.h ? ' · ' + esc(e.h) : '') + '</div>' +
       (e.desc ? '<p class="card__desc">' + esc(e.desc) + '</p>' : '') +
       (e.dj && e.dj.length ? '<div class="lineup-label">Artistas</div><ul class="lineup">' + e.dj.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + '</ul>' : '') +
@@ -197,7 +197,7 @@
   if (upcoming) {
     var target = Date.parse(upcoming.iso);
     $("#nexttitle").textContent = upcoming.t;
-    $("#nextmeta").textContent = upcoming.day + " " + upcoming.d + " " + upcoming.m + " · " + upcoming.h + " · " + upcoming.loc + ", Quito";
+    $("#nextmeta").textContent = upcoming.day + " " + upcoming.d + " " + upcoming.m + " · " + upcoming.h + " · " + upcoming.loc;
     $("#next").hidden = false;
     var pad = function (n) { return n < 10 ? "0" + n : String(n); };
     var timer2;

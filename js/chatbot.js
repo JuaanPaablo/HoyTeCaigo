@@ -20,7 +20,7 @@
 
   document.getElementById("chatmode").textContent = CFG.endpoint ? "Asistente con IA" : "Modo demo, sin IA";
 
-  var QUICK = ["¿Qué hacen?", "Eventos que han hecho", "Quiero cotizar un evento", "¿Dónde los encuentro?"];
+  var QUICK = ["¿Qué hacen?", "Eventos que han hecho", "Quiero cotizar un evento", "¿Dónde trabajan?"];
   QUICK.forEach(function (q) {
     var b = document.createElement("button");
     b.type = "button"; b.className = "chip"; b.textContent = q;
@@ -64,11 +64,11 @@
   }
   function localReply(q) {
     var t = norm(q);
-    if (/(hola|buenas|hey|saludos)/.test(t)) return "¡Hola! Somos Hoy te Caigo. Te cuento qué hacemos, qué eventos hemos producido o cómo cotizar uno.";
+    if (/(hola|buenas|hey|saludos)/.test(t)) return "¡Hola! Somos Hoy te Caigo, de Productora GS. Te cuento qué hacemos, qué eventos hemos producido o cómo cotizar uno.";
     if (/(entrada|boleto|comprar|precio|cuesta|cuanto|pagar|ticket)/.test(t)) return "Por ahora esta página es nuestro portafolio y no vendemos entradas. Si quieres un evento nuevo o una propuesta, escríbenos:\n" + socials();
     if (/(cotiz|contrat|auspic|marca|patrocin|contacto|alianza|propuesta|presupuesto|trabaj)/.test(t)) return "Cuéntanos tu idea, el público y la fecha, y armamos la propuesta. Escríbenos por:\n" + socials();
-    if (/(que hacen|servicio|ofrecen|producen|hacen)/.test(t)) return "Producimos fiestas temáticas, noches de micrófono abierto y encuentros universitarios en Quito, y armamos activaciones para marcas. Nos encargamos de la idea, el lugar, los artistas y la convocatoria.";
-    if (/(donde|ubicacion|zona|lugar|direccion|mariscal|cumbaya|floresta|gonzalez)/.test(t)) return "Hacemos eventos en La Mariscal, Cumbayá, La Floresta y González Suárez, en Quito.\n" + EVENTS.map(function (e) { return "• " + e.t + ": " + e.loc; }).join("\n");
+    if (/(que hacen|servicio|ofrecen|producen|hacen)/.test(t)) return "Somos Productora GS y producimos eventos pequeños, medianos y grandes en todo el Ecuador, además de activaciones para marcas. Nos encargamos de la idea, el lugar, los artistas, la logística y la convocatoria.";
+    if (/(donde|ubicacion|zona|lugar|direccion|ciudad|pais|nacional|cobertura|quito|guayaquil|cuenca)/.test(t)) return "Tenemos cobertura a nivel nacional y nuestra matriz está en Quito. Algunos eventos que hemos producido:\n" + EVENTS.slice(0, 5).map(function (e) { return "• " + e.t + ": " + e.loc; }).join("\n");
     if (/(instagram|tiktok|facebook|redes|whatsapp|siguen|seguir|encuentro)/.test(t)) return "Nuestras redes:\n" + socials();
     if (/(video|vibra)/.test(t)) return "Mira la sección «La vibra» de la página: ahí están los videos de nuestros eventos.";
     if (/(evento|portafolio|han hecho|realizad|fiesta|trabajos|dj|artista)/.test(t)) return "Algunos eventos que hemos producido:\n" + EVENTS.map(line).join("\n") + "\nMira el portafolio completo en la página.";
