@@ -21,8 +21,9 @@ window.HTC_CONFIG = {
     baseUrl: "https://pub-618376711601422cada62a8ebf4b0b92.r2.dev/"   // bucket público de Cloudflare R2
   },
 
-  // Panel de contenido (/admin). Pega aquí la URL y la clave "anon public" de tu proyecto de Supabase
-  // (Project Settings → API). La clave anon es pública por diseño; no pegues la "service_role".
+  // Panel de contenido (/admin). Pega aquí la URL del proyecto de Supabase y su clave PÚBLICA
+  // ("Publishable key" sb_publishable_… o la antigua "anon public"). Es pública por diseño.
+  // NUNCA pegues aquí la "Secret key" (sb_secret_…) ni la "service_role": darían control total de la base.
   // Con esto la página lee eventos, categorías y videos de la base. Sin esto usa js/data.js y el panel va en modo demo.
   supabase: {
     url: "",         // ej. "https://abcdxyz.supabase.co"

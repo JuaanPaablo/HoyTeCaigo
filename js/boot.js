@@ -26,8 +26,12 @@
   var done = false;
   var timer = setTimeout(function () { if (!done) { done = true; load(0); } }, 4000);
 
+  /* Las claves nuevas "sb_publishable_…" van solo en el encabezado apikey; las antiguas "anon" (JWT, empiezan con eyJ) también como Bearer. */
+  var headers = { apikey: S.anonKey };
+  if (/^eyJ/.test(S.anonKey)) headers.Authorization = "Bearer " + S.anonKey;
+
   function get(table, query) {
-    return fetch(base + table + "?" + query, { headers: { apikey: S.anonKey, Authorization: "Bearer " + S.anonKey } })
+    return fetch(base + table + "?" + query, { headers: headers })
       .then(function (r) { if (!r.ok) throw new Error(table + " " + r.status); return r.json(); });
   }
 
