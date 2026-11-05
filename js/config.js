@@ -18,7 +18,7 @@ window.HTC_CONFIG = {
   // y pega aquí la URL base pública. Cada video de js/data.js se carga como VIDEO_BASE_URL + archivo.
   // Si queda vacío, el feed muestra clips de ejemplo.
   videos: {
-    baseUrl: ""      // ej. "https://videos.hoytecaigo.ec/"
+    baseUrl: "https://pub-618376711601422cada62a8ebf4b0b92.r2.dev/"   // bucket público de Cloudflare R2
   },
 
   // Formulario "Avísame". Envía un POST JSON { name, contact, source, consent } a este endpoint.
