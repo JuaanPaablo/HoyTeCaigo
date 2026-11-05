@@ -72,7 +72,7 @@ Envía `POST` JSON `{ name, contact, consent, source }`. Guarda solo lo necesari
 
 ## Vista previa al compartir (WhatsApp, Facebook)
 
-`assets/og-image.png` (1200×630) y las etiquetas `og:` de `index.html` controlan cómo se ve el link al compartirlo. Las rutas están relativas; **al publicar, cámbialas por la URL completa**, por ejemplo `https://hoytecaigo.vercel.app/assets/og-image.png`, porque WhatsApp y Facebook no leen rutas relativas.
+`assets/og-image.png` (1200×630) y las etiquetas `og:` de `index.html` controlan cómo se ve el link al compartirlo. Usan la URL completa de Vercel (`https://hoytecaigo.vercel.app/…`) porque WhatsApp y Facebook no leen rutas relativas. **Al comprar el dominio, reemplaza `hoytecaigo.vercel.app` en `index.html`** (etiquetas `canonical`, `og:url`, `og:image` y `twitter:image`).
 
 ## Próximo evento
 
