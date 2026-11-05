@@ -49,6 +49,8 @@
 
   /* ---------- Visor de video (se descarga solo al abrirlo, preload="none") ---------- */
   function vurl(f) { return /^https?:\/\//.test(f) ? f : VBASE + f; }
+  /* Un video es reproducible si tiene URL completa o hay una base de videos configurada */
+  function isLive(src) { return !!(src && (/^https?:\/\//.test(src) || VBASE)); }
   var dlg = $("#vid"), player = $("#vidp");
   function closeVid() {
     player.pause(); player.removeAttribute("src"); player.removeAttribute("poster"); player.load();
@@ -70,18 +72,19 @@
 
   $("#events").innerHTML = EVENTS.map(function (e, i) {
     var art = e.img ? '<img loading="lazy" src="' + esc(e.img) + '" alt="">' : placeholder(e.c1);
-    var foot = (e.video && VBASE)
+    var foot = isLive(e.video)
       ? '<div class="card__foot"><button type="button" class="btn btn--sm" data-ev="' + i + '">' + playIco + ' Ver video</button></div>'
       : '';
     return '<article class="card" data-cat="' + esc(e.c) + '">' +
       '<div class="card__art">' + art + '<div class="card__date"><b>' + esc(e.d) + '</b><small>' + esc(e.m) + '</small></div><span class="card__tag">' + esc(e.c) + '</span></div>' +
       '<div class="card__body"><h3>' + esc(e.t) + '</h3>' +
       '<div class="card__where">' + pin + esc(e.loc) + ', Quito</div>' +
-      '<div class="card__when">' + esc(e.day) + ' · ' + esc(e.h) + '</div>' +
+      '<div class="card__when">' + esc(e.day) + (e.h ? ' · ' + esc(e.h) : '') + '</div>' +
       (e.desc ? '<p class="card__desc">' + esc(e.desc) + '</p>' : '') +
-      '<div class="lineup-label">Artistas</div><ul class="lineup">' + e.dj.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + '</ul>' +
+      (e.dj && e.dj.length ? '<div class="lineup-label">Artistas</div><ul class="lineup">' + e.dj.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + '</ul>' : '') +
       foot + '</div></article>';
   }).join("");
+  if (!EVENTS.length) $("#events").innerHTML = '<p class="note">Pronto publicaremos aquí nuestro portafolio de eventos.</p>';
   $("#events").addEventListener("click", function (e) {
     var b = e.target.closest("[data-ev]"); if (!b) return;
     var ev = EVENTS[+b.getAttribute("data-ev")];
@@ -119,8 +122,10 @@
   function renderFeed(list, note) {
     clips = list;
     $("#feednote").textContent = note || "";
+    $("#vibra").hidden = !list.length;   // sin videos publicados, se oculta la sección
+    feed.hidden = !list.length;
     feed.innerHTML = list.map(function (v, i) {
-      var live = !!(VBASE && v.src);
+      var live = isLive(v.src);
       var bg;
       if (!live) bg = placeholder(v.c1 || "#ff6a13");
       /* Portada en imagen (liviana y nítida). Si el archivo no existe, la página usa el primer cuadro del video. */
@@ -144,15 +149,16 @@
   feed.addEventListener("click", function (e) {
     var b = e.target.closest(".clip"); if (!b) return;
     var v = clips[+b.dataset.i];
-    if (!(VBASE && v.src)) { say("Este clip es de ejemplo. Sube tus videos al bucket para verlos aquí."); return; }
+    if (!isLive(v.src)) { say("Este clip es de ejemplo. Sube tus videos al bucket para verlos aquí."); return; }
     openVid(v.src, v.poster);
   });
 
-  var hasExplicit = VIDEOS.some(function (v) { return v.src; });
-  renderFeed(VIDEOS, VBASE && !hasExplicit ? "Buscando tus videos…" : (VBASE ? "" : "Clips de ejemplo. Conecta tus videos en js/config.js."));
+  var hasExplicit = window.HTC_REMOTE || VIDEOS.some(function (v) { return v.src; });
+  renderFeed(VIDEOS, hasExplicit ? "" : (VBASE ? "Buscando tus videos…" : "Clips de ejemplo. Conecta tus videos en js/config.js."));
 
   /* Autodetección: busca clip-1.mp4 … clip-10.mp4 en el bucket. Un <video> con solo metadatos
-     avisa si el archivo existe sin pedir permisos CORS ni descargar el video completo. */
+     avisa si el archivo existe sin pedir permisos CORS ni descargar el video completo.
+     No se usa cuando los videos vienen del panel (HTC_REMOTE) ni cuando están listados en data.js. */
   if (VBASE && !hasExplicit) {
     var found = [], pending = MAX_AUTO_CLIPS;
     var probe = function (n) {

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Panel · Hoy te Caigo</title>
+  <link rel="icon" href="../assets/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&family=Poppins:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<!-- Inicio de sesión -->
+<main class="login" id="login" hidden>
+  <div class="login__card">
+    <img src="../assets/logo.png" width="96" height="96" alt="Hoy te Caigo">
+    <h1>Panel de contenido</h1>
+    <p class="muted">Solo para el equipo de marketing.</p>
+    <form id="loginform" novalidate>
+      <div class="field"><label for="email">Correo</label><input id="email" type="email" autocomplete="username" required></div>
+      <div class="field"><label for="pass">Contraseña</label><input id="pass" type="password" autocomplete="current-password" required></div>
+      <p class="err" id="loginerr" role="alert"></p>
+      <button class="btn btn--block" type="submit" id="loginbtn">Entrar</button>
+    </form>
+    <div class="demo-note" id="demonote" hidden>
+      <b>Modo demo.</b> Todavía no hay base de datos conectada, así que el panel guarda los cambios solo en este navegador para que lo pruebes. Pulsa «Entrar» con cualquier dato.
+    </div>
+  </div>
+</main>
+
+<!-- Aplicación -->
+<div id="app" hidden>
+  <header class="bar">
+    <div class="bar__in">
+      <a class="brand" href="./" aria-label="Panel de Hoy te Caigo"><img src="../assets/logo.png" width="40" height="40" alt=""><span>Panel</span></a>
+      <span class="badge badge--demo" id="modebadge" hidden>Modo demo</span>
+      <div class="bar__r">
+        <a class="link" href="../" target="_blank" rel="noopener">Ver sitio</a>
+        <span class="muted bar__user" id="who"></span>
+        <button class="btn btn--ghost btn--sm" type="button" id="logout">Salir</button>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs" role="tablist" aria-label="Secciones"></nav>
+  </header>
+  <main class="wrap" id="view" aria-live="polite"></main>
+</div>
+
+<!-- Ventana de formulario -->
+<dialog class="modal" id="dlg" aria-labelledby="dlgtitle">
+  <form id="dform" novalidate>
+    <h2 id="dlgtitle"></h2>
+    <div class="modal__body" id="dbody"></div>
+    <p class="err" id="derr" role="alert"></p>
+    <div class="modal__foot">
+      <button class="btn btn--ghost" type="button" id="dcancel">Cancelar</button>
+      <button class="btn" type="submit" id="dsave">Guardar</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Confirmación -->
+<dialog class="modal modal--sm" id="cdlg" aria-labelledby="ctext">
+  <h2 id="ctitle">¿Seguro?</h2>
+  <p id="ctext"></p>
+  <div class="modal__foot">
+    <button class="btn btn--ghost" type="button" id="cno">Cancelar</button>
+    <button class="btn btn--danger" type="button" id="cyes">Eliminar</button>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="../js/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="store.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

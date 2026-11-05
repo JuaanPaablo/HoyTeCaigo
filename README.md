@@ -12,13 +12,41 @@ js/config.js          Redes, videos, formulario y chatbot  ← edita aquí prime
 js/data.js            Eventos del portafolio, servicios y videos de ejemplo
 js/app.js             Portafolio, filtros, servicios, feed y visor de video
 js/chatbot.js         Widget de chat (modo demo o con IA)
+js/boot.js            Arranque: trae los datos del panel (si está configurado) y luego carga app.js
+admin/                Panel de contenido para marketing (/admin)
+supabase/schema.sql   Base de datos, permisos y datos iniciales del panel
 api/chat.js           Función serverless que llama a la IA (Vercel)
 api/_knowledge.js     Lo que sabe el chatbot con IA
 assets/logo.png       Logo original (PNG con fondo transparente)
 assets/og-image.png   Imagen de vista previa al compartir el link
 ```
 
-## Editar contenido
+## Panel de contenido para marketing (/admin)
+
+Permite al equipo de marketing **crear, editar y eliminar eventos, categorías y videos** sin tocar código, y subir fotos y videos desde el navegador. Está en `https://TU-SITIO/admin/`.
+
+**Sin configurar** el panel funciona en **modo demo**: guarda los cambios solo en el navegador de quien lo prueba y la página pública sigue usando `js/data.js`. Para que sea real y compartido hay que conectar una base de datos (Supabase, plan gratuito, sin tarjeta):
+
+1. Crea una cuenta y un proyecto en supabase.com (elige región cercana, por ejemplo São Paulo).
+2. **SQL Editor → New query:** pega todo `supabase/schema.sql` y pulsa **Run**. Crea las tablas, los permisos y deja los eventos y videos de ejemplo cargados.
+3. **Authentication → Providers → Email:** desactiva **Allow new users to sign up** (así nadie se registra por su cuenta).
+4. **Authentication → Users → Add user:** crea un usuario con correo y contraseña para cada persona de marketing (marca «Auto Confirm User»).
+5. **Project Settings → API:** copia la **Project URL** y la clave **anon public** en `js/config.js` → `supabase.url` y `supabase.anonKey`. **Nunca** pegues la `service_role`.
+6. Sube el cambio a GitHub; Vercel lo publica. Entra a `/admin/` con el correo y la contraseña del paso 4.
+
+Cómo funciona:
+
+- La página pública lee solo lo **publicado**; el equipo con sesión ve y edita todo, incluidos los borradores. Las reglas están en `supabase/schema.sql` (RLS), por eso la clave `anon` puede ser pública.
+- Si la base tarda más de 4 s o falla, la página usa los datos de `js/data.js`, así nunca queda vacía.
+- Las fotos se reducen a 1600 px al subirlas. Los videos subidos desde el panel van a Supabase Storage (tope de 50 MB por archivo en el plan gratuito). Para videos más pesados, súbelos a Cloudflare R2 y pega el enlace en el formulario.
+- El panel puede crear la portada de un video subido desde el propio navegador.
+- Los clips de R2 que ya existen quedan cargados como videos en la base. Cámbiales el título desde el panel.
+
+Límites del plan gratuito de Supabase (verifica los vigentes en su página de precios): los proyectos **se pausan tras una semana sin actividad** y hay que reactivarlos a mano. Mientras esté pausado, la página sigue funcionando con `js/data.js`, pero el panel no. Tener visitas o usar el panel con frecuencia evita la pausa; un pase a plan de pago la elimina.
+
+El chatbot con IA aún lee los eventos de `api/_knowledge.js`; el chatbot en modo demo sí usa los eventos del panel.
+
+## Editar contenido (sin panel)
 
 - **Portafolio:** `js/data.js` → `HTC_EVENTS`. Los de ahora son de ejemplo. Cada evento admite `img` (foto en `assets/events/`) y `video` (archivo del bucket) para mostrar el botón «Ver video».
 - **Servicios:** `js/data.js` → `HTC_PLANS` (el selector «¿Qué quieres armar?»).
