@@ -26,8 +26,8 @@ window.HTC_CONFIG = {
   // NUNCA pegues aquí la "Secret key" (sb_secret_…) ni la "service_role": darían control total de la base.
   // Con esto la página lee eventos, categorías y videos de la base. Sin esto usa js/data.js y el panel va en modo demo.
   supabase: {
-    url: "",         // ej. "https://abcdxyz.supabase.co"
-    anonKey: ""      // ej. "eyJhbGciOi..."
+    url: "https://zejarsjhgjxkbpjrkfcf.supabase.co",
+    anonKey: "sb_publishable_gmp7Gq7d79DSoQNgNZRSzQ_UB4KJC74"   // clave pública (publishable)
   },
 
   // Formulario "Avísame". Envía un POST JSON { name, contact, source, consent } a este endpoint.
