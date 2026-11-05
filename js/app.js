@@ -10,16 +10,10 @@
   var $ = function (s) { return document.querySelector(s); };
 
   function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;"); }
-  function burst(cx, cy, r1, r2, n) {
-    var p = [];
-    for (var i = 0; i < n * 2; i++) {
-      var a = Math.PI * i / n - Math.PI / 2, r = i % 2 ? r1 : r2;
-      p.push((cx + Math.cos(a) * r).toFixed(1) + "," + (cy + Math.sin(a) * r).toFixed(1));
-    }
-    return p.join(" ");
+  /* Marcador de posición con el logo, centrado, para eventos y clips sin foto */
+  function placeholder(color) {
+    return '<div class="ph" style="--c1:' + esc(color) + '"><img src="assets/logo.png" alt="" loading="lazy"></div>';
   }
-  var logoPts = burst(20, 20, 13, 19, 10);
-  ["#logoburst", "#logoburst2"].forEach(function (s) { var e = $(s); if (e) e.setAttribute("points", logoPts); });
 
   /* Aviso */
   var toast = $("#toast"), tt;
@@ -53,17 +47,9 @@
   $("#ticker").innerHTML = tk + tk;
 
   /* Cartelera */
-  var glyph = {
-    bolt: '<polygon points="228,62 168,160 208,160 186,238 262,132 220,132" fill="#fff" stroke="#1b1410" stroke-width="6" stroke-linejoin="round"/>',
-    star: '<polygon points="200,58 222,118 286,120 236,158 254,220 200,184 146,220 164,158 114,120 178,118" fill="#fff" stroke="#1b1410" stroke-width="6" stroke-linejoin="round"/>',
-    mic: '<rect x="172" y="62" width="56" height="92" rx="28" fill="#fff" stroke="#1b1410" stroke-width="6"/><path d="M150 128v6a50 50 0 0 0 100 0v-6M200 184v34M176 220h48" fill="none" stroke="#1b1410" stroke-width="6" stroke-linecap="round"/>'
-  };
-  function art(ev, i) {
+  function art(ev) {
     if (ev.img) return '<img loading="lazy" src="' + esc(ev.img) + '" alt="">';
-    return '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><pattern id="pd' + i + '" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="8" cy="8" r="3" fill="' + ev.c2 + '"/></pattern></defs>' +
-      '<rect width="400" height="300" fill="' + ev.c1 + '"/><rect width="400" height="300" fill="url(#pd' + i + ')" opacity=".75"/>' +
-      '<polygon points="' + burst(200, 160, 82, 128, 11) + '" fill="' + ev.c2 + '" stroke="#1b1410" stroke-width="6" stroke-linejoin="round"/>' +
-      '<g transform="translate(0 20)">' + (glyph[ev.g] || glyph.star) + '</g></svg>';
+    return placeholder(ev.c1);
   }
   var pin = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z" fill="#ffd21f" stroke="#1b1410" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.6" fill="#1b1410"/></svg>';
 
@@ -73,7 +59,7 @@
       ? '<a class="btn btn--sm" href="' + esc(e.url) + '" target="_blank" rel="noopener noreferrer">' + label + '</a>'
       : '<a class="btn btn--sm" href="#" data-soon="' + esc(label) + ' de «' + esc(e.t) + '»: enlace pendiente.">' + label + '</a>';
     return '<article class="card" data-cat="' + esc(e.c) + '">' +
-      '<div class="card__art">' + art(e, i) + '<div class="card__date"><b>' + esc(e.d) + '</b><small>' + esc(e.m) + '</small></div><span class="card__tag">' + esc(e.c) + '</span></div>' +
+      '<div class="card__art">' + art(e) + '<div class="card__date"><b>' + esc(e.d) + '</b><small>' + esc(e.m) + '</small></div><span class="card__tag">' + esc(e.c) + '</span></div>' +
       '<div class="card__body"><h3>' + esc(e.t) + '</h3>' +
       '<div class="card__where">' + pin + esc(e.loc) + ', Quito</div>' +
       '<div class="card__when">' + esc(e.day) + ' · ' + esc(e.h) + '</div>' +
@@ -115,7 +101,7 @@
     var live = !!(VBASE && v.src);
     var bg = (live && v.poster)
       ? '<img loading="lazy" src="' + esc(vurl(v.poster)) + '" alt="">'
-      : '<svg viewBox="0 0 225 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><pattern id="cd' + i + '" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="7" cy="7" r="2.6" fill="' + v.c2 + '"/></pattern></defs><rect width="225" height="400" fill="' + v.c1 + '"/><rect width="225" height="400" fill="url(#cd' + i + ')"/><polygon points="' + burst(112, 170, 52, 86, 10) + '" fill="' + v.c2 + '" stroke="#1b1410" stroke-width="5" stroke-linejoin="round" opacity=".9"/></svg>';
+      : placeholder(v.c1);
     return '<button type="button" class="clip" data-i="' + i + '" aria-label="Ver video: ' + esc(v.title) + '">' + bg +
       '<span class="clip__views">' + esc(v.views) + ' vistas</span>' +
       '<span class="clip__play"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#1b1410"/></svg></span>' +

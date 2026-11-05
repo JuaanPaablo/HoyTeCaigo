@@ -14,7 +14,7 @@ js/app.js             Cartelera, filtros, plan, feed y visor de video
 js/chatbot.js         Widget de chat (modo demo o con IA)
 api/chat.js           Función serverless que llama a la IA (Vercel)
 api/_knowledge.js     Lo que sabe el chatbot con IA
-assets/logo.jpg       Logo
+assets/logo.png       Logo original (PNG con fondo transparente)
 ```
 
 ## Ver la página en local

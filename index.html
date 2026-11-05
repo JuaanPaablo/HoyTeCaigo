@@ -6,7 +6,7 @@
   <title>Hoy te Caigo</title>
   <meta name="description" content="Fiestas temáticas, micrófono abierto y encuentros universitarios en Quito, Ecuador.">
   <meta name="theme-color" content="#ffffff">
-  <link rel="icon" href="assets/logo.jpg" type="image/jpeg">
+  <link rel="icon" href="assets/logo.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,800;1,900&family=Poppins:wght@400;500;600&display=swap">
@@ -16,7 +16,7 @@
 
 <header class="wrap top">
   <a class="brand" href="#inicio" aria-label="Hoy te Caigo, inicio">
-    <svg class="brand__mark" viewBox="0 0 40 40" aria-hidden="true"><polygon id="logoburst" fill="#ffd21f" stroke="#1b1410" stroke-width="2.5" stroke-linejoin="round"/><circle cx="20" cy="20" r="5" fill="#ff6a13" stroke="#1b1410" stroke-width="2.5"/></svg>
+    <img class="brand__mark" src="assets/logo.png" width="48" height="48" alt="">
     <span class="brand__text">¡Hoy te<span>Caigo!</span></span>
   </a>
   <nav class="nav" aria-label="Principal">
@@ -46,15 +46,14 @@
       </div>
 
       <div class="hero__art">
-        <div class="logo-card">
-          <img src="assets/logo.jpg" width="1000" height="1000" alt="Logo de Hoy te Caigo: explosión de cómic con un micrófono y una taza de café" fetchpriority="high">
-        </div>
+        <img class="hero__logo" src="assets/logo.png" width="1000" height="1000" alt="Logo de Hoy te Caigo: explosión de cómic con un micrófono y una taza de café" fetchpriority="high">
         <!-- Íconos flotantes alrededor del logo (decorativos) -->
         <svg class="fl fl--star-y float" viewBox="0 0 48 48" aria-hidden="true"><polygon points="24,3 30,17 45,17 33,27 38,43 24,33 10,43 15,27 3,17 18,17" fill="#ffd21f" stroke="#1b1410" stroke-width="3" stroke-linejoin="round"/></svg>
         <svg class="fl fl--star-o float d2" viewBox="0 0 48 48" aria-hidden="true"><polygon points="24,3 30,17 45,17 33,27 38,43 24,33 10,43 15,27 3,17 18,17" fill="#ff6a13" stroke="#1b1410" stroke-width="3" stroke-linejoin="round"/></svg>
         <svg class="fl fl--mic float d3" viewBox="0 0 48 64" aria-hidden="true"><rect x="14" y="3" width="20" height="32" rx="10" fill="#fff" stroke="#1b1410" stroke-width="3"/><path d="M5 28v3a19 19 0 0 0 38 0v-3M24 50v10M15 60h18" fill="none" stroke="#1b1410" stroke-width="3" stroke-linecap="round"/><path d="M14 14h20M14 22h20" stroke="#1b1410" stroke-width="2" opacity=".5"/></svg>
         <svg class="fl fl--cup float" viewBox="0 0 72 60" aria-hidden="true"><path d="M5 18h46v14a23 21 0 0 1-46 0z" fill="#ff6a13" stroke="#1b1410" stroke-width="3" stroke-linejoin="round"/><ellipse cx="28" cy="18" rx="23" ry="6" fill="#c2185b" stroke="#1b1410" stroke-width="3"/><path d="M51 24c16-3 17 18 0 19" fill="none" stroke="#1b1410" stroke-width="3" stroke-linecap="round"/><path d="M16 9c-4-6 4-7 0-13M28 8c-4-6 4-7 0-13M40 9c-4-6 4-7 0-13" fill="none" stroke="#1b1410" stroke-width="2.5" stroke-linecap="round" opacity=".55"/></svg>
         <svg class="fl fl--spark spin" viewBox="0 0 40 40" aria-hidden="true"><polygon points="20,2 24,16 38,20 24,24 20,38 16,24 2,20 16,16" fill="#ffd21f" stroke="#1b1410" stroke-width="3" stroke-linejoin="round"/></svg>
+        <svg class="fl fl--spark2 spin" viewBox="0 0 40 40" aria-hidden="true"><polygon points="20,2 24,16 38,20 24,24 20,38 16,24 2,20 16,16" fill="#ff6a13" stroke="#1b1410" stroke-width="3" stroke-linejoin="round"/></svg>
         <span class="fl fl--dots" aria-hidden="true"></span>
       </div>
     </div>
@@ -119,7 +118,7 @@
   <div class="foot">
     <div class="foot__about">
       <a class="brand" href="#inicio">
-        <svg class="brand__mark" viewBox="0 0 40 40" aria-hidden="true"><polygon id="logoburst2" fill="#ffd21f" stroke="#1b1410" stroke-width="2.5" stroke-linejoin="round"/><circle cx="20" cy="20" r="5" fill="#ff6a13" stroke="#1b1410" stroke-width="2.5"/></svg>
+        <img class="brand__mark" src="assets/logo.png" width="48" height="48" alt="">
         <span class="brand__text">¡Hoy te<span>Caigo!</span></span>
       </a>
       <p>Eventos, vida nocturna y fiestas temáticas universitarias en Quito, Ecuador.</p>
@@ -152,6 +151,7 @@
 </button>
 <section class="chat" id="chatpanel" hidden aria-label="Asistente de Hoy te Caigo">
   <header class="chat__head">
+    <img src="assets/logo.png" width="40" height="40" alt="">
     <div><b>Asistente Caigo</b><small id="chatmode"></small></div>
     <button type="button" class="chat__x" id="chatx" aria-label="Cerrar chat">×</button>
   </header>
