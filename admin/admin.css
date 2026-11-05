@@ -95,6 +95,9 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px
 .item__meta { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; margin-top: 4px; font-size: .82rem; color: var(--ink-soft); }
 .item__act { grid-column: 1 / -1; display: flex; gap: 8px; justify-content: flex-end; }
 @media (min-width: 640px) { .item { grid-template-columns: 96px 1fr auto; } .item__thumb { width: 96px; } .item__act { grid-column: auto; } }
+.item--cat { grid-template-columns: 44px 1fr; }
+@media (min-width: 640px) { .item--cat { grid-template-columns: 44px 1fr auto; } }
+.dot--lg { width: 36px; height: 36px; }
 .chip { display: inline-flex; align-items: center; gap: 6px; font: 700 .72rem var(--font-body); padding: 3px 10px; border: 2px solid var(--ink); border-radius: 999px; background: var(--white); color: var(--ink); }
 .dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--ink); display: inline-block; flex: none; }
 .empty { text-align: center; padding: 40px 16px; background: var(--white); border: 2.5px dashed var(--ink-soft); border-radius: 14px; color: var(--ink-soft); }

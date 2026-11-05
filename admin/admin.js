@@ -288,7 +288,7 @@
     } else {
       html += '<div class="list">' + st.cats.map(function (c) {
         var n = st.events.filter(function (e) { return e.category_id === c.id; }).length;
-        return '<article class="item" style="grid-template-columns:44px 1fr"><span class="dot" style="background:' + esc(c.color) + ';width:36px;height:36px"></span>' +
+        return '<article class="item item--cat"><span class="dot dot--lg" style="background:' + esc(c.color) + '"></span>' +
           '<div class="item__main"><div class="item__title">' + esc(c.name) + '</div><div class="item__meta"><span>' + n + ' evento' + (n === 1 ? '' : 's') + '</span><span>Orden ' + c.sort_order + '</span></div></div>' +
           '<div class="item__act"><button class="btn btn--text" type="button" data-act="edit-cat" data-id="' + c.id + '">Editar</button>' +
           '<button class="btn btn--text" type="button" data-act="del-cat" data-id="' + c.id + '">Eliminar</button></div></article>';
