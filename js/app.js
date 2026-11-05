@@ -93,6 +93,12 @@
 
   var cats = ["Todos"];
   EVENTS.forEach(function (e) { if (cats.indexOf(e.c) < 0) cats.push(e.c); });
+  var catOrder = window.HTC_CAT_ORDER;
+  if (catOrder) cats.sort(function (a, b) {
+    if (a === "Todos") return -1; if (b === "Todos") return 1;
+    var i = catOrder.indexOf(a), j = catOrder.indexOf(b);
+    return (i < 0 ? 99 : i) - (j < 0 ? 99 : j);
+  });
   var fl = $("#filters");
   fl.innerHTML = cats.map(function (c, i) { return '<button type="button" class="chip" aria-pressed="' + (i === 0) + '" data-c="' + esc(c) + '">' + esc(c) + '</button>'; }).join("");
   fl.addEventListener("click", function (e) {

@@ -63,7 +63,8 @@
         iso: e.event_date ? e.event_date + "T" + (time || "00:00") + ":00-05:00" : ""   // Ecuador: UTC-5
       };
     });
-    window.HTC_REMOTE = true;   // los videos vienen de la base: no autodetectar clip-N.mp4
+    window.HTC_CAT_ORDER = r[0].map(function (c) { return c.name; });   // los filtros siguen el orden del panel
+    window.HTC_REMOTE = true;  // los videos vienen de la base: no autodetectar clip-N.mp4
     done = true; clearTimeout(timer); load(0);
   }).catch(function () {
     if (!done) { done = true; clearTimeout(timer); load(0); }
